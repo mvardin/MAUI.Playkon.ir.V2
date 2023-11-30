@@ -121,7 +121,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             {
             }
         }
-        private void Current_MediaItemChanged(object sender, MediaManager.Media.MediaItemEventArgs e)
+        private void Current_MediaItemChanged(object? sender, MediaManager.Media.MediaItemEventArgs e)
         {
             try
             {
@@ -133,18 +133,18 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             {
             }
         }
-        private void Current_PositionChanged(object sender, MediaManager.Playback.PositionChangedEventArgs e)
+        private void Current_PositionChanged(object? sender, MediaManager.Playback.PositionChangedEventArgs e)
         {
             Position = e.Position;
         }
-        private void Current_StateChanged(object sender, MediaManager.Playback.StateChangedEventArgs e)
+        private void Current_StateChanged(object? sender, MediaManager.Playback.StateChangedEventArgs e)
         {
             if (CrossMediaManager.Current.State == MediaManager.Player.MediaPlayerState.Playing)
                 PlayIcon = "pausebutton.png";
             else
                 PlayIcon = "playbutton.png";
         }
-        private void Current_MediaItemFailed(object sender, MediaManager.Media.MediaItemFailedEventArgs e)
+        private void Current_MediaItemFailed(object? sender, MediaManager.Media.MediaItemFailedEventArgs e)
         {
         }
 
@@ -158,7 +158,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         }
 
         [RelayCommand]
-        private void MakeFavourite()
+        private async void MakeFavourite()
         {
             var result = ApiService.GetInstance().Post<GeneralResult>("/Music/AddOrRemoveMusicFavourite",
                 "{\"id\":\"" + CurrentMusic.MusicId + "\",\"name\":\"string\"}");
@@ -177,7 +177,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         #endregion
 
         #region Methods
-        private void checkMusicFavourited()
+        private async void checkMusicFavourited()
         {
             try
             {

@@ -8,6 +8,7 @@ namespace MAUI.Playkon.ir.V2.Helper
         {
             MediaItemModel mediaItem = new MediaItemModel()
             {
+                Id = song.id.ToString(),
                 MusicId = song.id,
                 Album = song.album,
                 AlbumArtist = song.artist,

@@ -8,6 +8,28 @@ namespace MAUI.Playkon.ir.V2
         public MainPage()
         {
             InitializeComponent();
+            Task task = authenticat();
+        }
+
+        protected override void OnNavigatedTo(NavigatedToEventArgs args)
+        {
+            Task task = authenticat();
+            base.OnNavigatedTo(args);
+        }
+        private async Task authenticat()
+        {
+            await Task.Delay(2000);
+
+            var hasAuth = await SecureStorage.GetAsync("isLogged");
+
+            if (!(hasAuth == null))
+            {
+                await Shell.Current.GoToAsync("home");
+            }
+            else
+            {
+                await Shell.Current.GoToAsync("login");
+            }
         }
     }
 }

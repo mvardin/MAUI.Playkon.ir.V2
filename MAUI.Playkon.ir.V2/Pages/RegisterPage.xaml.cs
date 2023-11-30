@@ -12,7 +12,7 @@ namespace MAUI.Playkon.ir.V2.Pages
             InitializeComponent();
         }
 
-        private void btnRegister(object sender, EventArgs e)
+        private async void btnRegister(object sender, EventArgs e)
         {
             if (txtUsername.Text.StartsWith("09") && txtUsername.Text.Length == "00000000000".Length)
             {

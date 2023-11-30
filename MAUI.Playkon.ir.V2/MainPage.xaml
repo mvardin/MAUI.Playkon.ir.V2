@@ -1,9 +1,184 @@
 ﻿<?xml version = "1.0" encoding = "UTF-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             NavigationPage.HasNavigationBar="True"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
              x:Class="MAUI.Playkon.ir.V2.MainPage"
-             BackgroundColor="#1F2128"
-             Title="Player">
+             BackgroundColor="#1F2128">
+
+
+    <ScrollView>
+        <Grid RowDefinitions="auto,auto,auto,auto,auto,auto,auto"
+              ColumnDefinitions="*"
+              HorizontalOptions="FillAndExpand"
+              Padding="10">
+
+            <Image Grid.Row="0" 
+               Source="cdplayer.png"
+                   HeightRequest="300"
+                   Aspect="AspectFill"
+               />
+
+            <ImageButton 
+               Grid.Row="1"
+               Grid.Column="0"
+               Source="hearted.png"
+               WidthRequest="30"
+               HeightRequest="30"
+               BackgroundColor="Transparent"
+               Margin="0,0,15,0"
+               HorizontalOptions="End" />
+
+            <Label Grid.Row="2" 
+               Text="music titles" 
+               TextColor="White" 
+               FontSize="25" 
+               LineBreakMode="TailTruncation"
+               HorizontalOptions="Center"/>
+
+            <Label Grid.Row="3" Text="music artist" 
+               TextColor="White" 
+               FontSize="15" 
+               Opacity="0.5" 
+               HorizontalOptions="Center"/>
+
+            <Label Grid.Row="4"
+               HorizontalOptions="Center"
+               Text="12 played" 
+               TextColor="White"
+               Opacity="0.5"
+               VerticalOptions="Center"
+               Margin="0,0,0,0"/>
+
+            <!--<Grid Grid.Row="5" HorizontalOptions="FillAndExpand"
+              ColumnDefinitions="auto,*,auto">
+
+                <Label Grid.Column="0" 
+                   Text="12" 
+                   FontSize="12" 
+                   TextColor="White"
+                   Opacity="0.5"
+                   HorizontalOptions="Start" 
+                   VerticalOptions="Center"/>
+                <Slider Grid.Column="1" 
+                    MinimumTrackColor="#7175D8" 
+                    MaximumTrackColor="#7175D8" 
+                    ThumbColor="#7175D8" 
+                    Value="12" 
+                    Maximum="33" 
+                    HorizontalOptions="FillAndExpand"/>
+                <Label Grid.Column="2" 
+                   Text="43" 
+                   FontSize="12" 
+                   TextColor="White"
+                    Opacity="0.5"
+                   HorizontalOptions="End" 
+                   VerticalOptions="Center"/>
+            </Grid>-->
+
+            <!--<StackLayout Orientation="Horizontal" 
+                     Grid.Row="6"
+                     Spacing="20" 
+                     HorizontalOptions="Center">
+
+            <ImageButton Source="{Binding MuteIcon}" 
+                         HeightRequest="25"
+                         BackgroundColor="Transparent"
+                         HorizontalOptions="Center" 
+                         VerticalOptions="Center"
+                         Command="{Binding MuteCommand}"/>
+
+            <ImageButton Command="{Binding ChangeMusicCommand}"
+                        CommandParameter="P"
+                        Source="previoustrack2.png" 
+                        HeightRequest="45"
+                        BackgroundColor="Transparent" 
+                        HorizontalOptions="Center" 
+                        VerticalOptions="Center"/>
+
+            <ImageButton  Source="{Binding PlayIcon}" 
+                        Command="{Binding PlayCommand}"
+                        HeightRequest="65"
+                        BackgroundColor="Transparent" 
+                        HorizontalOptions="Center" 
+                        VerticalOptions="Center"/>
+
+            <ImageButton Command="{Binding ChangeMusicCommand}"
+                        CommandParameter="N"
+                        Source="nexttrack.png" 
+                        HeightRequest="45"
+                        BackgroundColor="Transparent" 
+                        HorizontalOptions="Center" 
+                        VerticalOptions="Center"/>
+
+            <ImageButton Command="{Binding ShareCommand}"
+                        Source="share.png" 
+                        HeightRequest="25"
+                        BackgroundColor="Transparent" 
+                        HorizontalOptions="Center" 
+                        VerticalOptions="Center"/>
+
+        </StackLayout>
+
+        <StackLayout Grid.Row="7">
+            <Label Text="Up Next " 
+                   TextColor="White"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center"
+                   FontSize="20"/>
+
+            <CollectionView Margin="15,15,0,0" 
+                         SelectionMode="Single" 
+                         ItemsSource="{Binding QueueList}" 
+                         VerticalScrollBarVisibility="Never"
+                         SelectedItem="{Binding CurrentMusic}"
+                         SelectionChangedCommand="{Binding PlaySelectedMusicCommand}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Margin="0,15,0,0">
+                            <Grid 
+                                 ColumnDefinitions="*,3*,*" 
+                                 RowDefinitions="auto,auto">
+                                <ffimageloading:CachedImage Source="{Binding DisplayImage}" 
+                                    WidthRequest="50" 
+                                    Grid.Column="0"
+                                    Grid.RowSpan="2"
+                                    LoadingPlaceholder="cdplayer.png" 
+                                    ErrorPlaceholder="cdplayer.png"/>
+
+                                <Label Text="{Binding Title}" 
+                                       LineBreakMode="TailTruncation"
+                            TextColor="White" 
+                            FontSize="17" 
+                            Grid.Column="1" 
+                            Grid.Row="0"/>
+                                <Label Text="{Binding Artist}" 
+                                       LineBreakMode="TailTruncation"
+                            TextColor="White" 
+                            FontSize="12" 
+                            Opacity="0.5" 
+                            Grid.Column="1" 
+                            Grid.Row="1"/>
+                                <Label Text="{Binding TatalDuration}" 
+                            TextColor="White" 
+                            FontSize="12" 
+                            Opacity="0.5" 
+                               HorizontalOptions="End"
+                               Margin="0,0,30,0"
+                            Grid.Column="2" 
+                            Grid.Row="1"/>
+                            </Grid>
+                            <BoxView HorizontalOptions="FillAndExpand" 
+                                  HeightRequest="0.1" 
+                                  Opacity="0.5"
+                                  Margin="10,0,20,0"
+                                  Color="white"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>-->
+
+        </Grid>
+    </ScrollView>
 
 </ContentPage>

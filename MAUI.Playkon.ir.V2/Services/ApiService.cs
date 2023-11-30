@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Kotlin;
+using MAUI.Playkon.ir.V2.Data;
+using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
 namespace MAUI.Playkon.ir.V2.Services
@@ -18,7 +20,8 @@ namespace MAUI.Playkon.ir.V2.Services
             try
             {
                 HttpClient client = new HttpClient();
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", getToken());
+                string token = getToken();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 return JsonConvert.DeserializeObject<T>(client.GetStringAsync("https://api.playkon.ir/api" + action).Result);
             }
             catch (Exception ex)
@@ -36,7 +39,8 @@ namespace MAUI.Playkon.ir.V2.Services
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "https://api.playkon.ir/api" + action);
 
                 request.Headers.Add("accept", "*/*");
-                request.Headers.Add("Authorization", "bearer " + getToken());
+                string token = getToken();
+                request.Headers.Add("Authorization", "bearer " + token);
 
                 request.Content = new StringContent(data);
                 request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -54,10 +58,18 @@ namespace MAUI.Playkon.ir.V2.Services
                 throw ex;
             }
         }
-
         private string getToken()
         {
-            return SecureStorage.GetAsync("token").Result;
+            try
+            {
+                var account = new AccountData().Get();
+                var token = account.token;
+                return token;
+            }
+            catch (Exception ex)
+            {
+                return string.Empty;
+            }
         }
     }
 }

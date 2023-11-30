@@ -23,7 +23,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         {
         }
 
-        public void SearchMethod(string q)
+        public async void SearchMethod(string q)
         {
             IsBusy = true;
             try
@@ -46,7 +46,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         public void Search(object obj)
         {
             IsBusy = true;
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 try
                 {

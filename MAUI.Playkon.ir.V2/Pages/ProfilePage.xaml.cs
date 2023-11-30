@@ -30,6 +30,7 @@ namespace MAUI.Playkon.ir.V2.Pages
         {
             try
             {
+                SecureStorage.SetAsync("isLogged" , "false");
                 SecureStorage.RemoveAll();
                 var _databasePath = Path.Combine(FileSystem.AppDataDirectory, "Playkon.db3");
                 File.Delete(_databasePath);

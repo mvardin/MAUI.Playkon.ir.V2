@@ -49,7 +49,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         public async Task GetMusics()
         {
             IsMusicLoading = true;
-            _ = Task.Run(() =>
+            _ = Task.Run(async () =>
             {
                 try
                 {
@@ -72,7 +72,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         public async Task GetAlbums()
         {
             IsAlbumsLoading = true;
-            _ = Task.Run(() =>
+            _ = Task.Run(async () =>
             {
                 try
                 {
@@ -92,7 +92,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         public async Task GetArtists()
         {
             IsArtistLoading = true;
-            _ = Task.Run(() =>
+            _ = Task.Run(async () =>
             {
                 try
                 {

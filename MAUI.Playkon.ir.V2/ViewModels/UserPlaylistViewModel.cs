@@ -21,7 +21,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         public UserPlaylistViewModel()
         {
             IsBusy = true;
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 try
                 {

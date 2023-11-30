@@ -51,6 +51,55 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\actionbackward.png" />
+	  <None Remove="Resources\Images\actionforward.png" />
+	  <None Remove="Resources\Images\actionpause.png" />
+	  <None Remove="Resources\Images\actionplay.png" />
+	  <None Remove="Resources\Images\actionstop.png" />
+	  <None Remove="Resources\Images\background.png" />
+	  <None Remove="Resources\Images\cdplayer.png" />
+	  <None Remove="Resources\Images\delete.png" />
+	  <None Remove="Resources\Images\edit.png" />
+	  <None Remove="Resources\Images\fastforwardbutton.png" />
+	  <None Remove="Resources\Images\headphone.png" />
+	  <None Remove="Resources\Images\heart.png" />
+	  <None Remove="Resources\Images\hearted.png" />
+	  <None Remove="Resources\Images\home.png" />
+	  <None Remove="Resources\Images\icon.png" />
+	  <None Remove="Resources\Images\keysol.png" />
+	  <None Remove="Resources\Images\microphone.png" />
+	  <None Remove="Resources\Images\minusbutton.png" />
+	  <None Remove="Resources\Images\musicfile.png" />
+	  <None Remove="Resources\Images\musicnote.png" />
+	  <None Remove="Resources\Images\musicnote1.png" />
+	  <None Remove="Resources\Images\nexttrack.png" />
+	  <None Remove="Resources\Images\nexttrack1.png" />
+	  <None Remove="Resources\Images\offbutton.png" />
+	  <None Remove="Resources\Images\pausebutton.png" />
+	  <None Remove="Resources\Images\playbutton.png" />
+	  <None Remove="Resources\Images\playlist.png" />
+	  <None Remove="Resources\Images\playlist1.png" />
+	  <None Remove="Resources\Images\playlist2.png" />
+	  <None Remove="Resources\Images\playlist3.png" />
+	  <None Remove="Resources\Images\playlistmenu.png" />
+	  <None Remove="Resources\Images\plusbutton.png" />
+	  <None Remove="Resources\Images\previoustrack.png" />
+	  <None Remove="Resources\Images\previoustrack1.png" />
+	  <None Remove="Resources\Images\previoustrack2.png" />
+	  <None Remove="Resources\Images\recordbutton.png" />
+	  <None Remove="Resources\Images\repeat.png" />
+	  <None Remove="Resources\Images\repeat1.png" />
+	  <None Remove="Resources\Images\savebutton.png" />
+	  <None Remove="Resources\Images\search.png" />
+	  <None Remove="Resources\Images\share.png" />
+	  <None Remove="Resources\Images\sound.png" />
+	  <None Remove="Resources\Images\soundoff.png" />
+	  <None Remove="Resources\Images\star.png" />
+	  <None Remove="Resources\Images\stopbutton.png" />
+	  <None Remove="Resources\Images\user.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="7.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="FFImageLoading.Maui" Version="1.0.3" />
@@ -60,10 +109,7 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="Plugin.MediaManager" Version="1.2.2" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
-		<PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.7" />
-		<PackageReference Include="SQLitePCLRaw.lib.e_sqlite3.android" Version="2.1.7" />
-		<PackageReference Include="SQLitePCLRaw.provider.e_sqlite3" Version="2.1.7" />
-		<PackageReference Include="SQLitePCLRaw.provider.sqlite3" Version="2.1.7" />
+		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.7" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -101,5 +147,7 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
+
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadUnhandledDeviceExceptionMAUIPlaykonirV2HideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>

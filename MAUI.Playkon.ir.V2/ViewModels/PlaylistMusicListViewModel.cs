@@ -46,7 +46,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         private void populateList()
         {
             IsBusy = true;
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 try
                 {

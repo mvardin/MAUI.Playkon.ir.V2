@@ -21,7 +21,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         {
             IsBusy = true;
 
-            _ = Task.Run(() =>
+            _ = Task.Run(async () =>
             {
                 try
                 {
@@ -56,7 +56,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             }
         }
 
-        public void Search(string q)
+        public async void Search(string q)
         {
             try
             {

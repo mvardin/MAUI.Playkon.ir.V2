@@ -8,11 +8,7 @@ namespace MAUI.Playkon.ir.V2
         {
             InitializeComponent();
 
-            bool isLogged = Convert.ToBoolean(SecureStorage.GetAsync("isLogged").Result);
-            if (!isLogged)
-                MainPage = new LoginPage();
-            else
-                MainPage = new AppShell();
+            MainPage = new AppShell();
         }
-    }
+    }   
 }
