@@ -1,0 +1,35 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MAUI.Playkon.ir.V2.Pages.LoginPage"
+             BackgroundColor="#1F2128"
+             >
+
+    <StackLayout Padding="20" VerticalOptions="Center">
+        
+        <Label Text="If all you need is MUSIC, Playkon is amazing for you"
+               TextColor="White"
+               FontSize="20"
+               Padding="10"/>
+        <Label Text="Login" 
+               TextColor="White"
+               FontSize="Large" 
+               HorizontalOptions="Center" />
+        <Entry Placeholder="Enter your mobile number"
+               TextColor="White"
+               PlaceholderColor="White"
+               Keyboard="Telephone"
+               x:Name="txtUsername"
+               />
+        <Entry Placeholder="Enter your password"
+               TextColor="White"
+                PlaceholderColor="White"
+                x:Name="txtPassword"
+                IsPassword="True" />
+        <Button Text="Login"
+                TextColor="White"
+                BackgroundColor="#6500C5"
+                Clicked="btnLogin" />
+        <Button Text="Or register new account" Clicked="gotoRegisterForm" BackgroundColor="Transparent"/>
+        <Button Text="Privacy" Clicked="showPrivacy" HorizontalOptions="End" VerticalOptions="End" BackgroundColor="Transparent"/>
+    </StackLayout>
+</ContentPage>

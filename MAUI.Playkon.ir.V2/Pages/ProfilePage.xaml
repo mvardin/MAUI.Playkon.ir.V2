@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MAUI.Playkon.ir.V2.Pages.ProfilePage"
+             BackgroundColor="#1F2128"
+             Title="My Profile">
+
+    <Grid 
+        Margin="15,0,0,0"
+            RowDefinitions="auto,auto,auto,auto,auto" 
+          ColumnDefinitions="auto">
+
+        <Image Source="{Binding image}" Aspect="AspectFill" HeightRequest="200" Grid.Row="0"/>
+
+        <StackLayout Grid.Row="1" Orientation="Horizontal">
+            <Image Source="cdplayer.png" WidthRequest="25"/>
+            <Button Text="About us" 
+                    BackgroundColor="Transparent" 
+                    TextColor="White"
+                    Clicked="btnAboutus"/>
+        </StackLayout>
+
+        <StackLayout Grid.Row="2" Orientation="Horizontal">
+            <Image Source="cdplayer.png" WidthRequest="25"/>
+            <Button Text="Playkon FAQ" 
+                    BackgroundColor="Transparent" 
+                    TextColor="White"
+                    Clicked="btnFAQ"/>
+        </StackLayout>
+
+        <StackLayout Grid.Row="3" Orientation="Horizontal">
+            <Image Source="cdplayer.png" WidthRequest="25"/>
+            <Button Text="Privacy Plicy" 
+                    BackgroundColor="Transparent" 
+                    TextColor="White"
+                    Clicked="btnPrivacy"/>
+        </StackLayout>
+
+        <StackLayout Grid.Row="4" Orientation="Horizontal">
+            <Image Source="cdplayer.png" WidthRequest="25"/>
+            <Button Text="Log out" 
+                    BackgroundColor="Transparent" 
+                    TextColor="White"
+                    Clicked="btnLogout"/>
+        </StackLayout>
+
+        <StackLayout Grid.Row="5" Orientation="Horizontal">
+            <Label Text="Playkon for Android v3.0.17" Opacity="0.5" TextColor="White"/>
+        </StackLayout>
+    </Grid>
+</ContentPage>

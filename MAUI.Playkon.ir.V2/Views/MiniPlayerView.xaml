@@ -1,0 +1,62 @@
+﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:MAUI.Playkon.ir.V2.ViewModels"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             x:DataType="viewmodel:MiniPlayerViewModel"
+             BackgroundColor="#1F2128"
+             x:Class="MAUI.Playkon.ir.V2.Views.MiniPlayerView">
+    <ContentView.Content>
+        <Grid ColumnDefinitions="100,auto,*"
+              RowDefinitions="auto,*" HeightRequest="{Binding ShowMiniPlayer}"
+              BackgroundColor="Gray">
+            <ffimageloading:CachedImage Source="{Binding CurrentMusic.DisplayImage}"
+                   Aspect="AspectFill"
+                   Grid.Column="0" 
+                   Grid.RowSpan="2"
+                    LoadingPlaceholder="cdplayer.png" 
+                    ErrorPlaceholder="cdplayer.png">
+                <ffimageloading:CachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="btnShowPlayer"
+                                          NumberOfTapsRequired="1">
+                    </TapGestureRecognizer>
+                </ffimageloading:CachedImage.GestureRecognizers>
+            </ffimageloading:CachedImage>
+
+            <StackLayout Orientation="Vertical" 
+                         VerticalOptions="Center"
+                         Grid.RowSpan="2"
+                         Grid.Column="1">
+                <Label Text="{Binding CurrentMusic.Title}" 
+                       TextColor="White" 
+                       FontSize="15"/>
+                <Label Text="{Binding CurrentMusic.Artist}" 
+                       FontSize="12"
+                       TextColor="White"
+                       Opacity="0.5"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" 
+                         Margin="0,0,20,0"
+                         HorizontalOptions="End" 
+                         Grid.RowSpan="2"
+                         Grid.Column="2">
+                <ImageButton Source="previoustrack2.png" 
+                       Command="{Binding PreviousCommand}"
+                             BackgroundColor="Transparent"
+                   WidthRequest="30"
+                   Grid.RowSpan="2" Grid.Column="2"/>
+                <ImageButton Source="{Binding PlayIcon}" 
+                       Command="{Binding PlayOrPauseCommand}"
+                             BackgroundColor="Transparent"
+                   WidthRequest="30"
+                   Grid.RowSpan="2" Grid.Column="3"/>
+                <ImageButton Source="nexttrack.png" 
+                             BackgroundColor="Transparent"
+                       Command="{Binding NextCommand}"
+                   WidthRequest="30"
+                   Grid.RowSpan="2" Grid.Column="4"/>
+            </StackLayout>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

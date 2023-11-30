@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             BackgroundColor="#1F2128"
+             Title="Playlist"
+             x:Class="MAUI.Playkon.ir.V2.Pages.UserPlaylistPage">
+
+    <StackLayout>
+
+        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
+
+        <Grid HeightRequest="200">
+            <ffimageloading:CachedImage 
+                    Source="background.png"
+                    Opacity="0.5"
+                    Aspect="AspectFill" 
+                    LoadingPlaceholder="cdplayer.png" 
+                    ErrorPlaceholder="cdplayer.png"/>
+            <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                <Label Text="Playlist" 
+                       TextColor="White" 
+                       FontSize="25"/>
+            </StackLayout>
+        </Grid>
+
+        <CollectionView Margin="15,15,0,0" 
+              SelectionMode="Single" 
+              ItemsSource="{Binding Playlist}" 
+              SelectedItem="{Binding SelectedPlaylist}"
+              SelectionChangedCommand="{Binding PlayPlaylistCommand}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Margin="0,15,0,0">
+                        <Grid 
+                              ColumnDefinitions="auto,3*,auto,auto" 
+                              RowDefinitions="auto,auto"
+                              Margin="0,0,15,0">
+                            <ffimageloading:CachedImage
+                                 Source="{Binding cover}" 
+                                 WidthRequest="50" 
+                                 Grid.Column="0"
+                                 Grid.RowSpan="2"
+                                 LoadingPlaceholder="cdplayer.png" 
+                                 ErrorPlaceholder="cdplayer.png"/>
+
+                            <Label  Text="{Binding name}" 
+                             HorizontalOptions="Start"
+                                 LineBreakMode="TailTruncation"
+                                 TextColor="White" 
+                                 FontSize="16"
+                                 Grid.Column="1" 
+                                 Grid.Row="0"/>
+
+                            <Label Text="{Binding musicCount ,StringFormat='{0} Musics'}" 
+                                     TextColor="White" 
+                                     FontSize="10" 
+                                     Opacity="0.5" 
+                                     Grid.Column="1" 
+                                     Grid.Row="1"/>
+
+                            <ImageButton Command="{Binding EditCommand}" 
+                                         CommandParameter="aa"
+                                         WidthRequest="25"
+                                         BackgroundColor="Transparent"
+                                         Grid.Column="2"
+                                         Source="edit.png"/>
+                            <ImageButton Command="{Binding DeleteCommand}" 
+                                         CommandParameter="a"
+                                         WidthRequest="25"
+                                         BackgroundColor="Transparent"
+                                         Grid.Column="3"
+                                         Source="delete.png"/>
+
+                        </Grid>
+                        <BoxView HorizontalOptions="FillAndExpand" 
+                                   HeightRequest="0.1" 
+                                   Opacity="0.5"
+                                   Margin="10,0,20,0"
+                                   Color="white"/>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </StackLayout>
+
+</ContentPage>

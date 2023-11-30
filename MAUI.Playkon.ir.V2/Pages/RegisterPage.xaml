@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MAUI.Playkon.ir.V2.Pages.RegisterPage"
+             BackgroundColor="#1F2128">
+    <StackLayout Padding="20" VerticalOptions="Center">
+        <Label Text="Register" 
+               TextColor="White"
+               FontSize="Large" 
+               HorizontalOptions="Center" />
+        <Entry Placeholder="Enter your mobile number"
+               TextColor="White"
+               PlaceholderColor="White"
+               Keyboard="Telephone"
+               x:Name="txtUsername"
+               />
+        <Entry Placeholder="Enter your password"
+               TextColor="White"
+               PlaceholderColor="White"
+               IsPassword="True"
+               x:Name="txtPassword"
+       />
+        <Button Text="Register"
+                TextColor="White"
+                BackgroundColor="#6500C5"
+                Clicked="btnRegister" />
+        <Button Text="Or login" Clicked="gotoLoginForm" BackgroundColor="Transparent"/>
+    </StackLayout>
+</ContentPage>

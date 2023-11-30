@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             x:Class="MAUI.Playkon.ir.V2.Pages.SearchPage"
+             BackgroundColor="#1F2128"
+             Title="Search">
+
+    <StackLayout>
+
+        <SearchBar 
+                    x:Name="searchBar"
+                    BackgroundColor="White"
+                    Placeholder="Search for music name, artist, album and ...." 
+                    SearchCommand="{Binding SearchCommand}"
+                    SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
+
+        <ActivityIndicator IsRunning="{Binding ShowLoading}" IsVisible="{Binding ShowLoading}"/>
+        <CollectionView Margin="15,15,0,0" 
+                 SelectionMode="Single" 
+                 ItemsSource="{Binding MusicList}" 
+                 SelectedItem="{Binding SelectedMusic}"
+                 SelectionChangedCommand="{Binding PlayMusicCommand}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Margin="0,15,0,0">
+                        <Grid 
+                 ColumnDefinitions="auto,3*,*" 
+                 RowDefinitions="auto,auto">
+                            <ffimageloading:CachedImage
+                                Source="{Binding DisplayImage}" 
+                                WidthRequest="50" 
+                                Grid.Column="0"
+                                Grid.RowSpan="2"
+                                LoadingPlaceholder="cdplayer.png" 
+                                ErrorPlaceholder="cdplayer.png"/>
+
+                            <Label  Text="{Binding Title}" 
+                                    LineBreakMode="TailTruncation"
+                    TextColor="White" 
+                    FontSize="16"
+                    Grid.Column="1" 
+                    Grid.Row="0"/>
+                            <Label Text="{Binding Artist}" 
+                                        TextColor="White" 
+                    FontSize="10" 
+                    Opacity="0.5" 
+                    Grid.Column="1" 
+                    Grid.Row="1"/>
+                            <Label Text="{Binding TatalDuration}" 
+                    TextColor="White" 
+                    FontSize="12" 
+                    Opacity="0.5" 
+                       HorizontalOptions="End"
+                       Margin="0,0,30,0"
+                    Grid.Column="2" 
+                    Grid.Row="1"/>
+                        </Grid>
+                        <BoxView HorizontalOptions="FillAndExpand" 
+                          HeightRequest="0.1" 
+                          Opacity="0.5"
+                          Margin="10,0,20,0"
+                          Color="white"/>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </StackLayout>
+
+
+</ContentPage>

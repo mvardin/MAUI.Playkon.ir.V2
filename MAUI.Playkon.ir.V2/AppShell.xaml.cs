@@ -1,0 +1,10 @@
+﻿namespace MAUI.Playkon.ir.V2
+{
+    public partial class AppShell : Shell
+    {
+        public AppShell()
+        {
+            InitializeComponent();
+        }
+    }
+}
