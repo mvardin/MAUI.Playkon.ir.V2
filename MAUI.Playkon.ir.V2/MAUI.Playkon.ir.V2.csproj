@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net8.0-android;</TargetFrameworks>
-		
+
 		<!-- Note for MacCatalyst:
 		The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
 		When specifying both architectures, use the plural <RuntimeIdentifiers> instead of the singular <RuntimeIdentifier>.
@@ -18,10 +18,10 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>MAUI.Playkon.ir.V2</ApplicationTitle>
+		<ApplicationTitle>Playkon</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.maui.playkon.ir.v2</ApplicationId>
+		<ApplicationId>in.ardin.playkon</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -30,14 +30,14 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
- </PropertyGroup>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<MauiIcon Include="Resources\AppIcon\appicon.png" Color="#FFFFFF" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\splash.png" Color="#FFFFFF" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -51,52 +51,52 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Images\actionbackward.png" />
-	  <None Remove="Resources\Images\actionforward.png" />
-	  <None Remove="Resources\Images\actionpause.png" />
-	  <None Remove="Resources\Images\actionplay.png" />
-	  <None Remove="Resources\Images\actionstop.png" />
-	  <None Remove="Resources\Images\background.png" />
-	  <None Remove="Resources\Images\cdplayer.png" />
-	  <None Remove="Resources\Images\delete.png" />
-	  <None Remove="Resources\Images\edit.png" />
-	  <None Remove="Resources\Images\fastforwardbutton.png" />
-	  <None Remove="Resources\Images\headphone.png" />
-	  <None Remove="Resources\Images\heart.png" />
-	  <None Remove="Resources\Images\hearted.png" />
-	  <None Remove="Resources\Images\home.png" />
-	  <None Remove="Resources\Images\icon.png" />
-	  <None Remove="Resources\Images\keysol.png" />
-	  <None Remove="Resources\Images\microphone.png" />
-	  <None Remove="Resources\Images\minusbutton.png" />
-	  <None Remove="Resources\Images\musicfile.png" />
-	  <None Remove="Resources\Images\musicnote.png" />
-	  <None Remove="Resources\Images\musicnote1.png" />
-	  <None Remove="Resources\Images\nexttrack.png" />
-	  <None Remove="Resources\Images\nexttrack1.png" />
-	  <None Remove="Resources\Images\offbutton.png" />
-	  <None Remove="Resources\Images\pausebutton.png" />
-	  <None Remove="Resources\Images\playbutton.png" />
-	  <None Remove="Resources\Images\playlist.png" />
-	  <None Remove="Resources\Images\playlist1.png" />
-	  <None Remove="Resources\Images\playlist2.png" />
-	  <None Remove="Resources\Images\playlist3.png" />
-	  <None Remove="Resources\Images\playlistmenu.png" />
-	  <None Remove="Resources\Images\plusbutton.png" />
-	  <None Remove="Resources\Images\previoustrack.png" />
-	  <None Remove="Resources\Images\previoustrack1.png" />
-	  <None Remove="Resources\Images\previoustrack2.png" />
-	  <None Remove="Resources\Images\recordbutton.png" />
-	  <None Remove="Resources\Images\repeat.png" />
-	  <None Remove="Resources\Images\repeat1.png" />
-	  <None Remove="Resources\Images\savebutton.png" />
-	  <None Remove="Resources\Images\search.png" />
-	  <None Remove="Resources\Images\share.png" />
-	  <None Remove="Resources\Images\sound.png" />
-	  <None Remove="Resources\Images\soundoff.png" />
-	  <None Remove="Resources\Images\star.png" />
-	  <None Remove="Resources\Images\stopbutton.png" />
-	  <None Remove="Resources\Images\user.png" />
+		<None Remove="Resources\Images\actionbackward.png" />
+		<None Remove="Resources\Images\actionforward.png" />
+		<None Remove="Resources\Images\actionpause.png" />
+		<None Remove="Resources\Images\actionplay.png" />
+		<None Remove="Resources\Images\actionstop.png" />
+		<None Remove="Resources\Images\background.png" />
+		<None Remove="Resources\Images\cdplayer.png" />
+		<None Remove="Resources\Images\delete.png" />
+		<None Remove="Resources\Images\edit.png" />
+		<None Remove="Resources\Images\fastforwardbutton.png" />
+		<None Remove="Resources\Images\headphone.png" />
+		<None Remove="Resources\Images\heart.png" />
+		<None Remove="Resources\Images\hearted.png" />
+		<None Remove="Resources\Images\home.png" />
+		<None Remove="Resources\Images\icon.png" />
+		<None Remove="Resources\Images\keysol.png" />
+		<None Remove="Resources\Images\microphone.png" />
+		<None Remove="Resources\Images\minusbutton.png" />
+		<None Remove="Resources\Images\musicfile.png" />
+		<None Remove="Resources\Images\musicnote.png" />
+		<None Remove="Resources\Images\musicnote1.png" />
+		<None Remove="Resources\Images\nexttrack.png" />
+		<None Remove="Resources\Images\nexttrack1.png" />
+		<None Remove="Resources\Images\offbutton.png" />
+		<None Remove="Resources\Images\pausebutton.png" />
+		<None Remove="Resources\Images\playbutton.png" />
+		<None Remove="Resources\Images\playlist.png" />
+		<None Remove="Resources\Images\playlist1.png" />
+		<None Remove="Resources\Images\playlist2.png" />
+		<None Remove="Resources\Images\playlist3.png" />
+		<None Remove="Resources\Images\playlistmenu.png" />
+		<None Remove="Resources\Images\plusbutton.png" />
+		<None Remove="Resources\Images\previoustrack.png" />
+		<None Remove="Resources\Images\previoustrack1.png" />
+		<None Remove="Resources\Images\previoustrack2.png" />
+		<None Remove="Resources\Images\recordbutton.png" />
+		<None Remove="Resources\Images\repeat.png" />
+		<None Remove="Resources\Images\repeat1.png" />
+		<None Remove="Resources\Images\savebutton.png" />
+		<None Remove="Resources\Images\search.png" />
+		<None Remove="Resources\Images\share.png" />
+		<None Remove="Resources\Images\sound.png" />
+		<None Remove="Resources\Images\soundoff.png" />
+		<None Remove="Resources\Images\star.png" />
+		<None Remove="Resources\Images\stopbutton.png" />
+		<None Remove="Resources\Images\user.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -113,44 +113,48 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="LoadingPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\AlbumsPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\ArtistsPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\HomePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\LoginPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\PlayerPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\PlaylistMusicListPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\ProfilePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\RegisterPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\SearchPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\UserPlaylistPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\MiniPlayerView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
+		<MauiXaml Update="LoadingPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\AlbumsPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\ArtistsPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\HomePage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\LoginPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\PlayerPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\PlaylistMusicListPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\ProfilePage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\RegisterPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\SearchPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\UserPlaylistPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\MiniPlayerView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 	</ItemGroup>
 
-	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadUnhandledDeviceExceptionMAUIPlaykonirV2HideInfoBar="True" /></VisualStudio></ProjectExtensions>
+	<ProjectExtensions>
+		<VisualStudio>
+			<UserProperties XamarinHotReloadUnhandledDeviceExceptionMAUIPlaykonirV2HideInfoBar="True" />
+		</VisualStudio>
+	</ProjectExtensions>
 
 </Project>
