@@ -48,7 +48,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             CrossMediaManager.Current.PositionChanged += Current_PositionChanged;
             CrossMediaManager.Current.Speed = 1;
 
-            if (list.Any())
+            if (list != null && list.Any())
             {
                 QueueList = list;
                 CrossMediaManager.Current.Queue.Clear();
@@ -128,6 +128,11 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 Task.Run(addMusicLog);
                 Task.Run(checkMusicFavourited);
                 CurrentMusic = e.MediaItem as MediaItemModel;
+                StrongReferenceMessenger.Default.Send(new CurrentMusicMessageModel()
+                {
+                    IsPlaying = true,
+                    Music = CurrentMusic
+                });
             }
             catch (Exception ex)
             {

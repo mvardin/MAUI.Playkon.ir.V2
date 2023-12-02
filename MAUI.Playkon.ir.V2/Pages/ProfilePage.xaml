@@ -4,53 +4,66 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MAUI.Playkon.ir.V2.Pages.ProfilePage"
              BackgroundColor="#1F2128"
              Shell.NavBarIsVisible="False"
+             xmlns:miniPlayer="clr-namespace:MAUI.Playkon.ir.V2.Views"
              Title="My Profile">
 
-    <Grid 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ScrollView Grid.Row="0">
+            <StackLayout>
+                <Grid 
         Margin="15,0,0,0"
             RowDefinitions="auto,auto,auto,auto,auto,auto" 
           ColumnDefinitions="*">
 
-        <Image Source="{Binding Account.image}" 
+                    <Image Source="{Binding Account.image}" 
                Aspect="AspectFill" 
                HeightRequest="200" 
                HorizontalOptions="FillAndExpand"
                Grid.Row="0"/>
 
-        <StackLayout Grid.Row="1" Orientation="Horizontal">
-            <Image Source="cdplayer.png" WidthRequest="25"/>
-            <Button Text="About us" 
+                    <StackLayout Grid.Row="1" Orientation="Horizontal">
+                        <Image Source="cdplayer.png" WidthRequest="25"/>
+                        <Button Text="About us" 
                     BackgroundColor="Transparent" 
                     TextColor="White"
                     Clicked="btnAboutus"/>
-        </StackLayout>
+                    </StackLayout>
 
-        <StackLayout Grid.Row="2" Orientation="Horizontal">
-            <Image Source="cdplayer.png" WidthRequest="25"/>
-            <Button Text="Playkon FAQ" 
+                    <StackLayout Grid.Row="2" Orientation="Horizontal">
+                        <Image Source="cdplayer.png" WidthRequest="25"/>
+                        <Button Text="Playkon FAQ" 
                     BackgroundColor="Transparent" 
                     TextColor="White"
                     Clicked="btnFAQ"/>
-        </StackLayout>
+                    </StackLayout>
 
-        <StackLayout Grid.Row="3" Orientation="Horizontal">
-            <Image Source="cdplayer.png" WidthRequest="25"/>
-            <Button Text="Privacy Plicy" 
+                    <StackLayout Grid.Row="3" Orientation="Horizontal">
+                        <Image Source="cdplayer.png" WidthRequest="25"/>
+                        <Button Text="Privacy Plicy" 
                     BackgroundColor="Transparent" 
                     TextColor="White"
                     Clicked="btnPrivacy"/>
-        </StackLayout>
+                    </StackLayout>
 
-        <StackLayout Grid.Row="4" Orientation="Horizontal">
-            <Image Source="cdplayer.png" WidthRequest="25"/>
-            <Button Text="Log out" 
+                    <StackLayout Grid.Row="4" Orientation="Horizontal">
+                        <Image Source="cdplayer.png" WidthRequest="25"/>
+                        <Button Text="Log out" 
                     BackgroundColor="Transparent" 
                     TextColor="White"
                     Clicked="btnLogout"/>
-        </StackLayout>
+                    </StackLayout>
 
-        <StackLayout Grid.Row="5" Orientation="Horizontal">
-            <Label Text="Playkon for Android v3.0.17" Opacity="0.5" TextColor="White"/>
-        </StackLayout>
+                    <StackLayout Grid.Row="5" Orientation="Horizontal">
+                        <Label Text="Playkon for Android v3.0.17" Opacity="0.5" TextColor="White"/>
+                    </StackLayout>
+                </Grid>
+            </StackLayout>
+        </ScrollView>
+        <miniPlayer:MiniPlayerView Grid.Row="1" />
     </Grid>
 </ContentPage>

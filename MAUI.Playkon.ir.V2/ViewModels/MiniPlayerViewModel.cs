@@ -20,6 +20,15 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         public MiniPlayerViewModel()
         {
             StrongReferenceMessenger.Default.Register(this);
+            if (CrossMediaManager.Current.IsPlaying())
+            {
+                StrongReferenceMessenger.Default.Send(
+                    new CurrentMusicMessageModel()
+                    {
+                        IsPlaying = true,
+                        Music = CrossMediaManager.Current.Queue.Current as MediaItemModel
+                    });
+            }
         }
 
         [RelayCommand]
