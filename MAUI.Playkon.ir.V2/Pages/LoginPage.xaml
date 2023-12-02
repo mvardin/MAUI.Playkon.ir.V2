@@ -1,8 +1,8 @@
 ﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MAUI.Playkon.ir.V2.Pages.LoginPage"
-             BackgroundColor="#1F2128"
-             >
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#1F2128">
 
     <StackLayout Padding="20" VerticalOptions="Center">
         

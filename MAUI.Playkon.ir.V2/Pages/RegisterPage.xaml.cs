@@ -36,7 +36,7 @@ namespace MAUI.Playkon.ir.V2.Pages
                     SecureStorage.SetAsync("isLogged", "true").Wait();
                     SecureStorage.SetAsync("token", result.token).Wait();
                     Application.Current.MainPage = new AppShell();
-                    Shell.Current.GoToAsync("//Home");
+                    Shell.Current.GoToAsync("///home");
                 }
                 else
                     DisplayAlert("Register faild", "Please select correct username and password", "OK");

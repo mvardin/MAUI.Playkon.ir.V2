@@ -3,6 +3,7 @@
 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MAUI.Playkon.ir.V2.Pages.ProfilePage"
              BackgroundColor="#1F2128"
+             Shell.NavBarIsVisible="False"
              Title="My Profile">
 
     <Grid 

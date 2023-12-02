@@ -24,7 +24,7 @@ namespace MAUI.Playkon.ir.V2
 
             if (!(hasAuth == null))
             {
-                await Shell.Current.GoToAsync("home");
+                Shell.Current.GoToAsync("///home");
             }
             else
             {

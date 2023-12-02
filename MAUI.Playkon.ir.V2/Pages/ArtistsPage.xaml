@@ -3,6 +3,7 @@
 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
              BackgroundColor="#1F2128"
+             Shell.NavBarIsVisible="False"
              x:Class="MAUI.Playkon.ir.V2.Pages.ArtistsPage"
              Title="Artists">
 
