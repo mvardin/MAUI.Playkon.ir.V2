@@ -59,6 +59,8 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             else PlayIcon = "playbutton.png";
 
             ShowMiniPlayer = 60;
+
+            CrossMediaManager.Current.Play(CurrentMusic);
         }
     }
 }
