@@ -31,7 +31,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             var viewModel = new PlayerViewModel(MusicList.FirstOrDefault(), MusicList);
             var playerPage = new PlayerPage { BindingContext = viewModel };
 
-            await Shell.Current.Navigation.PushAsync(playerPage, true);
+            Shell.Current.Navigation.PushAsync(playerPage, true);
         }
 
         public PlaylistMusicListViewModel(string id, PlaylistType type)

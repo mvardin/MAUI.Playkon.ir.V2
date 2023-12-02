@@ -13,13 +13,11 @@ namespace MAUI.Playkon.ir.V2.Pages
 
         private void btnMoreAlbums(object sender, EventArgs e)
         {
-            Navigation.RemovePage(this);
-            Navigation.PushAsync(new AlbumsPage(), true);
+            Shell.Current.GoToAsync("albums", true);
         }
         private void btnMoreArtists(object sender, EventArgs e)
         {
-            Navigation.RemovePage(this);
-            Navigation.PushAsync(new ArtistsPage(), true);
+            Shell.Current.GoToAsync("artists", true);
         }
         private void tappedon_selectedAlbum(object sender, EventArgs e)
         {

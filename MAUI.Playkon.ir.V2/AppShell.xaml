@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:MAUI.Playkon.ir.V2.Pages"
     xmlns:main="clr-namespace:MAUI.Playkon.ir.V2"
     Shell.FlyoutBehavior="Disabled"
-    Shell.NavBarIsVisible="False">
+    Shell.NavBarIsVisible="True">
 
     <Shell.Resources>
         <ResourceDictionary>
@@ -28,42 +28,51 @@
 
     <ShellContent
         Title="Home"
-        ContentTemplate="{DataTemplate main:MainPage}"
+        ContentTemplate="{DataTemplate main:LoadingPage}"
         Route="loading" />
+
+    <ShellContent 
+        Title="Login" 
+        ContentTemplate="{DataTemplate local:LoginPage}"
+        Route="login"/>
 
     <TabBar >
 
-        <Tab Icon="home.png" 
-         Title="Home"
-         Route="Home">
-            <ShellContent>
-                <local:HomePage />
-            </ShellContent>
+        <Tab Title="Home" 
+             Icon="home.png">
+            <ShellContent
+                Icon="home.png"
+                Title="Home"
+                ContentTemplate="{DataTemplate local:HomePage}"
+                Route="home" />
         </Tab>
 
-        <Tab Icon="search.png" 
-         Title="Search"
-         Route="Search">
-            <ShellContent>
-                <local:SearchPage />
-            </ShellContent>
+        <Tab Title="Search" 
+             Icon="search.png">
+            <ShellContent
+                Icon="search.png"
+                Title="Search"
+                ContentTemplate="{DataTemplate local:SearchPage}"
+                Route="search" />
         </Tab>
 
-        <Tab Icon="playlistmenu.png" 
-          Title="Playlist"
-          Route="Playlist">
-            <ShellContent>
-                <local:UserPlaylistPage />
-            </ShellContent>
+        <Tab Title="Playlist" 
+              Icon="playlistmenu.png">
+            <ShellContent
+                Icon="playlistmenu.png"
+                Title="Playlist"
+                ContentTemplate="{DataTemplate local:UserPlaylistPage}"
+                Route="playlist" />
         </Tab>
 
-        <Tab Icon="user.png" 
-         Title="My Music"
-         Route="Profile">
-            <ShellContent>
-                <local:ProfilePage />
-            </ShellContent>
+        <Tab Title="Profile" 
+             Icon="user.png">
+            <ShellContent
+                Icon="user.png"
+                Title="Profile"
+                ContentTemplate="{DataTemplate local:ProfilePage}"
+                Route="profile" />
         </Tab>
+
     </TabBar>
-
 </Shell>

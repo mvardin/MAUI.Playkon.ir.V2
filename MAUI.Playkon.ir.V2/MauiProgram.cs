@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Logging;
 using CommunityToolkit.Maui;
 using FFImageLoading.Maui;
+using MediaManager.Platforms.Android.MediaSession;
+using MAUI.Playkon.ir.V2.Services;
 
 namespace MAUI.Playkon.ir.V2
 {

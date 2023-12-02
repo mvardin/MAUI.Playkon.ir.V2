@@ -52,7 +52,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
 
                 var viewModel = new PlaylistMusicListViewModel(id, PlaylistType.Artist);
                 var page = new PlaylistMusicListPage { BindingContext = viewModel };
-                await Shell.Current.Navigation.PushAsync(page, true);
+                Shell.Current.Navigation.PushAsync(page, true);
             }
         }
 

@@ -7,10 +7,14 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 
     <Grid 
         Margin="15,0,0,0"
-            RowDefinitions="auto,auto,auto,auto,auto" 
-          ColumnDefinitions="auto">
+            RowDefinitions="auto,auto,auto,auto,auto,auto" 
+          ColumnDefinitions="*">
 
-        <Image Source="{Binding image}" Aspect="AspectFill" HeightRequest="200" Grid.Row="0"/>
+        <Image Source="{Binding Account.image}" 
+               Aspect="AspectFill" 
+               HeightRequest="200" 
+               HorizontalOptions="FillAndExpand"
+               Grid.Row="0"/>
 
         <StackLayout Grid.Row="1" Orientation="Horizontal">
             <Image Source="cdplayer.png" WidthRequest="25"/>

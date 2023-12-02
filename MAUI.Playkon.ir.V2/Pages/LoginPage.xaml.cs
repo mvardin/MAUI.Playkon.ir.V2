@@ -36,7 +36,6 @@ namespace MAUI.Playkon.ir.V2.Pages
                     });
                     await SecureStorage.SetAsync("isLogged", "true");
                     await SecureStorage.SetAsync("token", result.response.token);
-                    Application.Current.MainPage = new AppShell();
                     _ = Shell.Current.GoToAsync("home");
                 }
                 else
