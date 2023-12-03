@@ -6,12 +6,20 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Shell.NavBarIsVisible="True"
              BackgroundColor="#1F2128">
 
-    <ScrollView>
-        <Grid RowDefinitions="auto,auto,auto,auto,auto,auto,auto,*"
+    <Grid RowDefinitions="auto,*">
+        <ImageButton Source="back.png"
+            Grid.Row="0"
+            Margin="5,5,0,0"
+            WidthRequest="30"
+            HeightRequest="30"
+            Clicked="btnBack"
+            HorizontalOptions="Start"/>
+        <ScrollView Grid.Row="1">
+            <Grid RowDefinitions="auto,auto,auto,auto,auto,auto,auto,*"
               ColumnDefinitions="*"
               HorizontalOptions="FillAndExpand">
 
-            <ffimageloading:CachedImage Grid.Row="0" 
+                <ffimageloading:CachedImage Grid.Row="0" 
                    Source="{Binding CurrentMusic.ImageUri}" 
                    Aspect="AspectFill"
                    HeightRequest="300"
@@ -19,7 +27,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                    LoadingPlaceholder="cdplayer.png" 
                    ErrorPlaceholder="cdplayer.png"/>
 
-            <ImageButton Grid.Row="1"
+                <ImageButton Grid.Row="1"
                    Source="{Binding FavouriteIcon}"
                    WidthRequest="30"
                    HeightRequest="30"
@@ -27,21 +35,21 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                    Command="{Binding MakeFavouriteCommand}"
                    HorizontalOptions="End" />
 
-            <Label Grid.Row="2" 
+                <Label Grid.Row="2" 
                    Text="{Binding CurrentMusic.Title}" 
                    TextColor="White" 
                    FontSize="25" 
                    LineBreakMode="TailTruncation"
                    HorizontalOptions="Center"/>
 
-            <Label Grid.Row="3" 
+                <Label Grid.Row="3" 
                    Text="{Binding CurrentMusic.Artist}" 
                    TextColor="White" 
                    FontSize="15" 
                    Opacity="0.5" 
                    HorizontalOptions="Center"/>
 
-            <Label Grid.Row="4"
+                <Label Grid.Row="4"
                    HorizontalOptions="Center"
                    Text="{Binding CurrentMusic.MusicCount , StringFormat='{0} times played'}" 
                    TextColor="White"
@@ -49,90 +57,90 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                    VerticalOptions="Center"
                    Margin="0,0,0,0"/>
 
-            <Grid Grid.Row="5" 
+                <Grid Grid.Row="5" 
                   ColumnDefinitions="auto,*,auto"
                   Padding="10">
 
-                <Label Grid.Column="0" 
+                    <Label Grid.Column="0" 
                        Text="{Binding Position, StringFormat='{0:mm\\:ss}'}" 
                        FontSize="12" 
                        TextColor="White"
                        Opacity="0.5"
                        HorizontalOptions="Start" 
                        VerticalOptions="Center"/>
-                <Slider Grid.Column="1" 
+                    <Slider Grid.Column="1" 
                         MinimumTrackColor="#7175D8" 
                         MaximumTrackColor="#7175D8" 
                         ThumbColor="#7175D8" 
                         Value="{Binding Position.TotalSeconds}" 
                         Maximum="{Binding Maximum}" 
                         HorizontalOptions="FillAndExpand"/>
-                <Label Grid.Column="2" 
+                    <Label Grid.Column="2" 
                        Text="{Binding Duration, StringFormat='{0:mm\\:ss}'}" 
                        FontSize="12" 
                        TextColor="White"
                        Opacity="0.5"
                        HorizontalOptions="End" 
                        VerticalOptions="Center"/>
-                
-            </Grid>
 
-            <HorizontalStackLayout Grid.Row="6"
+                </Grid>
+
+                <HorizontalStackLayout Grid.Row="6"
                                    VerticalOptions="Start"
                                    Spacing="20"
                                    HeightRequest="120"
                                    Padding="10"
                                    HorizontalOptions="Center">
 
-                <ImageButton Source="{Binding MuteIcon}" 
+                    <ImageButton Source="{Binding MuteIcon}" 
                              WidthRequest="25"
                              BackgroundColor="Transparent"
                              Command="{Binding MuteCommand}"/>
 
-                <ImageButton Command="{Binding ChangeMusicCommand}"
+                    <ImageButton Command="{Binding ChangeMusicCommand}"
                             CommandParameter="P"
                             Source="previoustrack2.png" 
                             WidthRequest="45"
                             BackgroundColor="Transparent"/>
 
-                <ImageButton  Source="{Binding PlayIcon}" 
+                    <ImageButton  Source="{Binding PlayIcon}" 
                             Command="{Binding PlayCommand}"
                             WidthRequest="65"
                             BackgroundColor="Transparent" />
 
-                <ImageButton Command="{Binding ChangeMusicCommand}"
+                    <ImageButton Command="{Binding ChangeMusicCommand}"
                             CommandParameter="N"
                             Source="nexttrack.png" 
                             WidthRequest="45"
                             BackgroundColor="Transparent" />
 
-                <ImageButton Command="{Binding ShareCommand}"
+                    <ImageButton Command="{Binding ShareCommand}"
                             Source="share.png" 
                             WidthRequest="25"
                             BackgroundColor="Transparent" />
 
-            </HorizontalStackLayout>
+                </HorizontalStackLayout>
 
-            <StackLayout Grid.Row="7"
+                <StackLayout Grid.Row="7"
                          Padding="10">
-                <Label Text="Up Next " 
+                    <Label Text="Up Next " 
                        TextColor="White"
                        HorizontalOptions="Start"
                        VerticalOptions="Center"
                        FontSize="20"/>
 
-                <CollectionView SelectionMode="Single" 
+                    <CollectionView SelectionMode="Single" 
                              ItemsSource="{Binding QueueList}" 
                              VerticalScrollBarVisibility="Never"
                              SelectedItem="{Binding CurrentMusic}"
                              SelectionChangedCommand="{Binding PlaySelectedMusicCommand}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <StackLayout Margin="0,15,0,0">
-                                <Grid ColumnDefinitions="auto,auto,auto,*" 
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Margin="0,15,0,0">
+                                    <Grid ColumnDefinitions="auto,auto,auto,*" 
                                         RowDefinitions="auto,auto">
 
-                                    <Label Text="{Binding rowCount}" 
+                                        <Label Text="{Binding rowCount}" 
                                         TextColor="White"
                                         FontSize="14"
                                         VerticalOptions="Center"
@@ -141,7 +149,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                                         Grid.Column="0" 
                                         Grid.RowSpan="2"/>
 
-                                    <ffimageloading:CachedImage
+                                        <ffimageloading:CachedImage
                                         Source="{Binding DisplayImage}" 
                                         WidthRequest="50" 
                                         Margin="0,0,5,0"
@@ -150,19 +158,19 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                                         LoadingPlaceholder="cdplayer.png" 
                                         ErrorPlaceholder="cdplayer.png"/>
 
-                                    <Label Text="{Binding Title}" 
+                                        <Label Text="{Binding Title}" 
                                          TextColor="White"
                                          FontSize="17"
                                          VerticalOptions="Center"
                                          Grid.Column="2" 
                                          Grid.Row="0"/>
-                                    <Label Text="{Binding Artist}" 
+                                        <Label Text="{Binding Artist}" 
                                         TextColor="White"
                                         FontSize="12" 
                                         Opacity="0.5" 
                                         Grid.Column="2" 
                                         Grid.Row="1"/>
-                                    <Label Text="{Binding TatalDuration}" 
+                                        <Label Text="{Binding TatalDuration}" 
                                         TextColor="White"
                                         FontSize="12" 
                                         Opacity="0.5" 
@@ -171,19 +179,20 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                                         Margin="0,0,30,0"
                                         Grid.Column="3" 
                                         Grid.RowSpan="2"/>
-                                </Grid>
-                                <BoxView HorizontalOptions="FillAndExpand" 
+                                    </Grid>
+                                    <BoxView HorizontalOptions="FillAndExpand" 
                                          HeightRequest="0.1" 
                                          Opacity="0.5"
                                          Margin="10,0,20,0"
                                          Color="white"/>
-                            </StackLayout>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </StackLayout>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
 
-        </Grid>
-    </ScrollView>
+            </Grid>
+        </ScrollView>
+    </Grid>
 
 </ContentPage>

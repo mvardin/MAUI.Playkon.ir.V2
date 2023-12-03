@@ -43,7 +43,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             StrongReferenceMessenger.Default.Register(this);
 
             CrossMediaManager.Current.StateChanged += Current_StateChanged;
-            CrossMediaManager.Current.MediaItemChanged += Current_MediaItemChanged;
+            //CrossMediaManager.Current.MediaItemChanged += Current_MediaItemChanged;
             CrossMediaManager.Current.MediaItemFailed += Current_MediaItemFailed;
             CrossMediaManager.Current.PositionChanged += Current_PositionChanged;
             CrossMediaManager.Current.Speed = 1;
@@ -55,16 +55,22 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 foreach (var item in list)
                     CrossMediaManager.Current.Queue.Add(item);
             }
+            else
+            {
+                QueueList = new ObservableCollection<MediaItemModel>();
+                foreach (var item in CrossMediaManager.Current.Queue)
+                    QueueList.Add(item as MediaItemModel);
+            }
 
             if (music != null)
-            {
                 CurrentMusic = music;
-                Duration = CurrentMusic.Duration;
-                Maximum = CurrentMusic.Duration.TotalSeconds;
-                FavouriteIcon = CurrentMusic.Favourite ? "hearted.png" : "heart.png";
+            else
+                CurrentMusic = CrossMediaManager.Current.Queue.Current as MediaItemModel;
 
-                _ = playMusic();
-            }
+            Duration = CurrentMusic.Duration;
+            Maximum = CurrentMusic.Duration.TotalSeconds;
+            FavouriteIcon = CurrentMusic.Favourite ? "hearted.png" : "heart.png";
+            //_ = playMusic();
         }
 
         private async Task playMusic()
@@ -130,8 +136,8 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 CurrentMusic = e.MediaItem as MediaItemModel;
                 StrongReferenceMessenger.Default.Send(new CurrentMusicMessageModel()
                 {
-                    IsPlaying = true,
-                    Music = CurrentMusic
+                    Music = CurrentMusic,
+                    PlayNewInstance = false
                 });
             }
             catch (Exception ex)

@@ -47,8 +47,9 @@ namespace MAUI.Playkon.ir.V2.ViewModels
 
                 StrongReferenceMessenger.Default.Send(new CurrentMusicMessageModel()
                 {
-                    IsPlaying = true,
-                    Music = SelectedMusic
+                    Music = SelectedMusic,
+                    PlayNewInstance = true,
+                    MusicList = recentMusicList
                 });
 
                 //Shell.Current.Navigation.PushAsync(playerPage, true);

@@ -1,8 +1,11 @@
-﻿namespace MAUI.Playkon.ir.V2.Models
+﻿using System.Collections.ObjectModel;
+
+namespace MAUI.Playkon.ir.V2.Models
 {
     public class CurrentMusicMessageModel
     {
         public MediaItemModel Music { get; set; }
-        public bool IsPlaying { get; set; }
+        public ObservableCollection<MediaItemModel> MusicList { get; set; }
+        public bool PlayNewInstance { get; set; } = false;
     }
 }

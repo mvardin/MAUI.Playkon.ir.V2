@@ -32,6 +32,16 @@
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
+	  <AndroidUseAapt2>True</AndroidUseAapt2>
+	  <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.png" Color="#FFFFFF" />
@@ -56,6 +66,7 @@
 		<None Remove="Resources\Images\actionpause.png" />
 		<None Remove="Resources\Images\actionplay.png" />
 		<None Remove="Resources\Images\actionstop.png" />
+		<None Remove="Resources\Images\back.png" />
 		<None Remove="Resources\Images\background.png" />
 		<None Remove="Resources\Images\cdplayer.png" />
 		<None Remove="Resources\Images\delete.png" />

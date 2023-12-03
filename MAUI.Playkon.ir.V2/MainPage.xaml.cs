@@ -8,13 +8,10 @@ namespace MAUI.Playkon.ir.V2
         public MainPage()
         {
             InitializeComponent();
-            Task task = authenticat();
         }
 
         protected override void OnNavigatedTo(NavigatedToEventArgs args)
         {
-            Task task = authenticat();
-            base.OnNavigatedTo(args);
         }
         private async Task authenticat()
         {

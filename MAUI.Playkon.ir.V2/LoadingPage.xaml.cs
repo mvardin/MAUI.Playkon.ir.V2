@@ -13,17 +13,23 @@ public partial class LoadingPage : ContentPage
     }
     private async Task authenticat()
     {
-        await Task.Delay(2000);
-
-        var hasAuth = await SecureStorage.GetAsync("isLogged");
-
-        if (!(hasAuth == null))
+        try
         {
-            await Shell.Current.GoToAsync("///home");
+            await Task.Delay(2000);
+
+            var hasAuth = await SecureStorage.GetAsync("isLogged");
+
+            if (!(hasAuth == null))
+            {
+                await Shell.Current.GoToAsync("//home");
+            }
+            else
+            {
+                await Shell.Current.GoToAsync("login");
+            }
         }
-        else
+        catch (Exception ex)
         {
-            await Shell.Current.GoToAsync("login");
         }
     }
 }

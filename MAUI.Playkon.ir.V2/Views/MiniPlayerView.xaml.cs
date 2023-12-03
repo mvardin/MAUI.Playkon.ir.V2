@@ -10,12 +10,11 @@ namespace MAUI.Playkon.ir.V2.Views
             InitializeComponent();
             BindingContext = new MiniPlayerViewModel();
         }
-
-        private void btnShowPlayer(object sender, EventArgs e)
+        private void btnShowPlayer(object sender, TappedEventArgs e)
         {
-            var viewModel = new PlayerViewModel(null , null);
+            var viewModel = new PlayerViewModel(null, null);
             var playerPage = new PlayerPage { BindingContext = viewModel };
-            Shell.Current.Navigation.PushModalAsync(playerPage);
+            Navigation.PushModalAsync(playerPage, true);
         }
     }
 }

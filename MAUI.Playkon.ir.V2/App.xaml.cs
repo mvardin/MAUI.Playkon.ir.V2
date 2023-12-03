@@ -10,5 +10,5 @@ namespace MAUI.Playkon.ir.V2
 
             MainPage = new AppShell();
         }
-    }   
+    }
 }
