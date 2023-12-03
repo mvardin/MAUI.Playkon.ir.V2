@@ -70,15 +70,6 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             Duration = CurrentMusic.Duration;
             Maximum = CurrentMusic.Duration.TotalSeconds;
             FavouriteIcon = CurrentMusic.Favourite ? "hearted.png" : "heart.png";
-            //_ = playMusic();
-        }
-
-        private async Task playMusic()
-        {
-            if (CurrentMusic != null)
-            {
-                await CrossMediaManager.Current.Play();
-            }
         }
 
         #region Command
