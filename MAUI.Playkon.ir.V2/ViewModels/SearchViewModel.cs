@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using MAUI.Playkon.ir.V2.Helper;
 using MAUI.Playkon.ir.V2.Models;
 using MAUI.Playkon.ir.V2.Pages;
@@ -70,10 +71,17 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         {
             if (SelectedMusic != null)
             {
-                var viewModel = new PlayerViewModel(SelectedMusic, MusicList);
-                var playerPage = new PlayerPage { BindingContext = viewModel };
+                //var viewModel = new PlayerViewModel(SelectedMusic, MusicList);
+                //var playerPage = new PlayerPage { BindingContext = viewModel };
 
-                Shell.Current.Navigation.PushAsync(playerPage, true);
+                //Shell.Current.Navigation.PushAsync(playerPage, true);
+
+                StrongReferenceMessenger.Default.Send(new CurrentMusicMessageModel()
+                {
+                    Music = SelectedMusic,
+                    PlayNewInstance = true,
+                    MusicList = MusicList
+                });
             }
         }
     }

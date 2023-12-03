@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using MAUI.Playkon.ir.V2.Helper;
 using MAUI.Playkon.ir.V2.Models;
 using MAUI.Playkon.ir.V2.Pages;
@@ -28,10 +29,17 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         [RelayCommand]
         private async Task PlayAsync()
         {
-            var viewModel = new PlayerViewModel(MusicList.FirstOrDefault(), MusicList);
-            var playerPage = new PlayerPage { BindingContext = viewModel };
+            //var viewModel = new PlayerViewModel(MusicList.FirstOrDefault(), MusicList);
+            //var playerPage = new PlayerPage { BindingContext = viewModel };
 
-            Shell.Current.Navigation.PushAsync(playerPage, true);
+            //Shell.Current.Navigation.PushAsync(playerPage, true);
+
+            StrongReferenceMessenger.Default.Send(new CurrentMusicMessageModel()
+            {
+                Music = null,
+                PlayNewInstance = true,
+                MusicList = MusicList
+            });
         }
 
         public PlaylistMusicListViewModel(string id, PlaylistType type)
