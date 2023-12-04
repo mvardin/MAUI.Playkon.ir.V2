@@ -32,7 +32,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  SelectionMode="Single"
                  ItemsSource="{Binding MusicList}" 
                  SelectedItem="{Binding SelectedMusic}"
-                 SelectionChangedCommand="{Binding SelectionCommand}">
+                 SelectionChangedCommand="{Binding PlayMusicCommand}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout Margin="0,15,0,0">

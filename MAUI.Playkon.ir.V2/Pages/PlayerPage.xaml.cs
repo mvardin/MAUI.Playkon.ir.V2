@@ -10,7 +10,13 @@
 
         private void btnBack(object sender, EventArgs e)
         {
-            Shell.Current.Navigation.PopModalAsync();
+            try
+            {
+                Shell.Current.Navigation.PopModalAsync();
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }

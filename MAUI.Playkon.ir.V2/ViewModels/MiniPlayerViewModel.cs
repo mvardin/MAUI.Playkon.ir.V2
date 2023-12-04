@@ -104,7 +104,11 @@ namespace MAUI.Playkon.ir.V2.ViewModels
 
         public void Receive(CurrentMusicMessageModel message)
         {
-            CurrentMusic = message.Music;
+            if (message.Music != null)
+                CurrentMusic = message.Music;
+            else if (message.MusicList != null)
+                CurrentMusic = message.MusicList.FirstOrDefault();
+
             if (CrossMediaManager.Current.State == MediaManager.Player.MediaPlayerState.Playing)
                 PlayIcon = "pausebutton.png";
             else PlayIcon = "playbutton.png";
