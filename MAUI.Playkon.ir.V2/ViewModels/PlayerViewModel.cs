@@ -45,15 +45,19 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             StrongReferenceMessenger.Default.Register(this);
 
             CrossMediaManager.Current.StateChanged += Current_StateChanged;
-            CrossMediaManager.Current.MediaItemChanged += Current_MediaItemChanged;
+            //CrossMediaManager.Current.MediaItemChanged += Current_MediaItemChanged;
             CrossMediaManager.Current.MediaItemFailed += Current_MediaItemFailed;
             CrossMediaManager.Current.PositionChanged += Current_PositionChanged;
             CrossMediaManager.Current.Speed = 1;
 
+            if (music != null)
+                CurrentMusic = music;
+            else
+                CurrentMusic = CrossMediaManager.Current.Queue.Current as MediaItemModel;
+
             if (list != null && list.Any())
             {
                 QueueList = list;
-                QueueHelper.AddToQueue(list.ToList());
             }
             else
             {
@@ -61,12 +65,6 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 foreach (var item in CrossMediaManager.Current.Queue)
                     QueueList.Add(item as MediaItemModel);
             }
-
-            if (music != null)
-                CurrentMusic = music;
-            else
-                CurrentMusic = CrossMediaManager.Current.Queue.Current as MediaItemModel;
-
             Duration = CurrentMusic.Duration;
             Maximum = CurrentMusic.Duration.TotalSeconds;
             FavouriteIcon = CurrentMusic.Favourite ? "hearted.png" : "heart.png";
@@ -107,11 +105,25 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             {
                 if ((string)obj == "P")
                 {
-                    var changed = await CrossMediaManager.Current.PlayPrevious();
+                    var task = CrossMediaManager.Current.PlayPrevious();
+                    _ = task.ContinueWith((task) =>
+                    {
+                        StrongReferenceMessenger.Default.Send(new CurrentMusicMessageModel()
+                        {
+                            Music = CurrentMusic,
+                        });
+                    });
                 }
                 else if ((string)obj == "N")
                 {
-                    var changed = await CrossMediaManager.Current.PlayNext();
+                    var task = CrossMediaManager.Current.PlayNext();
+                    _ = task.ContinueWith((task) =>
+                    {
+                        StrongReferenceMessenger.Default.Send(new CurrentMusicMessageModel()
+                        {
+                            Music = CurrentMusic,
+                        });
+                    });
                 }
             }
             catch (Exception ex)
@@ -148,7 +160,8 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         {
             if (CurrentMusic != null)
             {
-                CrossMediaManager.Current.Play();
+                await CrossMediaManager.Current.Play(QueueList);
+                CrossMediaManager.Current.PlayQueueItem(CurrentMusic);
             }
         }
 

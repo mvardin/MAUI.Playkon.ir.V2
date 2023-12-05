@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 
 namespace MAUI.Playkon.ir.V2.ViewModels
 {
-    public partial class SearchViewModel : ObservableObject
+    public partial class SearchViewModel : ObservableObject, IRecipient<CurrentMusicMessageModel>
     {
         [ObservableProperty]
         private bool isBusy;
@@ -22,6 +22,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
 
         public SearchViewModel()
         {
+            //StrongReferenceMessenger.Default.Register(this);
         }
 
         public async void SearchMethod(string q)
@@ -83,6 +84,11 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                     MusicList = MusicList
                 });
             }
+        }
+
+        public void Receive(CurrentMusicMessageModel message)
+        {
+            //SelectedMusic = message.Music;
         }
     }
 }

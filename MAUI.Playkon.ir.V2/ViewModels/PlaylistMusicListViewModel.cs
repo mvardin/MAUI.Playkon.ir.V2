@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 
 namespace MAUI.Playkon.ir.V2.ViewModels
 {
-    public partial class PlaylistMusicListViewModel : ObservableObject
+    public partial class PlaylistMusicListViewModel : ObservableObject, IRecipient<CurrentMusicMessageModel>
     {
         [ObservableProperty]
         private bool isBusy = false;
@@ -25,6 +25,9 @@ namespace MAUI.Playkon.ir.V2.ViewModels
 
         [ObservableProperty]
         private ObservableCollection<MediaItemModel> musicList;
+
+        [ObservableProperty]
+        private MediaItemModel selectedMusic;
 
         [RelayCommand]
         private async Task PlayAsync()
@@ -44,6 +47,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
 
         public PlaylistMusicListViewModel(string id, PlaylistType type)
         {
+            //StrongReferenceMessenger.Default.Register(this);
             MusicList = new ObservableCollection<MediaItemModel>();
             Id = id;
             Type = type;
@@ -95,6 +99,12 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 IsBusy = false;
             });
         }
+
+        public void Receive(CurrentMusicMessageModel message)
+        {
+            //SelectedMusic = message.Music;
+        }
+
         public string Id { get; }
         public PlaylistType Type { get; }
     }

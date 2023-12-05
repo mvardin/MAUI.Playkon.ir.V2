@@ -1,10 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Java.Net;
 using MAUI.Playkon.ir.V2.Helper;
 using MAUI.Playkon.ir.V2.Models;
 using MAUI.Playkon.ir.V2.Services;
 using MediaManager;
+using MediaManager.Library;
 
 namespace MAUI.Playkon.ir.V2.ViewModels
 {
@@ -51,10 +53,10 @@ namespace MAUI.Playkon.ir.V2.ViewModels
 
                 Task.Run(addMusicLog);
 
-                StrongReferenceMessenger.Default.Send(new CurrentMusicMessageModel()
-                {
-                    Music = CurrentMusic
-                });
+                //StrongReferenceMessenger.Default.Send(new CurrentMusicMessageModel()
+                //{
+                //    Music = CurrentMusic
+                //});
             }
             catch (Exception ex)
             {
@@ -81,15 +83,15 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         [RelayCommand]
         private void Next()
         {
-            CrossMediaManager.Current.PlayNext();
+            var task = CrossMediaManager.Current.PlayNext();
         }
         [RelayCommand]
         private void Previous()
         {
-            CrossMediaManager.Current.PlayPrevious();
+            var task = CrossMediaManager.Current.PlayPrevious();
         }
 
-        public void Receive(CurrentMusicMessageModel message)
+        public async void Receive(CurrentMusicMessageModel message)
         {
             if (message.Music != null)
                 CurrentMusic = message.Music;
@@ -104,8 +106,8 @@ namespace MAUI.Playkon.ir.V2.ViewModels
 
             if (message.PlayNewInstance)
             {
-                CrossMediaManager.Current.Play(CurrentMusic);
-                QueueHelper.AddToQueue(message.MusicList.ToList());
+                await CrossMediaManager.Current.Play(message.MusicList);
+                CrossMediaManager.Current.PlayQueueItem(CurrentMusic);
             }
         }
     }

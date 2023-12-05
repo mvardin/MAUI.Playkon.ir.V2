@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 
 namespace MAUI.Playkon.ir.V2.ViewModels
 {
-    public partial class HomeViewModel : ObservableObject
+    public partial class HomeViewModel : ObservableObject, IRecipient<CurrentMusicMessageModel>
     {
         [ObservableProperty]
         private ObservableCollection<MediaItemModel> recentMusicList;
@@ -32,6 +32,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
 
         public HomeViewModel()
         {
+            StrongReferenceMessenger.Default.Register(this);
             Task.Run(GetMusics);
             Task.Run(GetAlbums);
             Task.Run(GetArtists);
@@ -118,6 +119,11 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 }
                 IsArtistLoading = false;
             });
+        }
+
+        public void Receive(CurrentMusicMessageModel message)
+        {
+            SelectedMusic = message.Music;
         }
     }
 }
