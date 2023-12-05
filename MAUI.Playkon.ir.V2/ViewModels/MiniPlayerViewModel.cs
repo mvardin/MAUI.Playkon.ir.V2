@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using MAUI.Playkon.ir.V2.Helper;
 using MAUI.Playkon.ir.V2.Models;
 using MAUI.Playkon.ir.V2.Services;
 using MediaManager;
@@ -49,7 +50,6 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 CurrentMusic = e.MediaItem as MediaItemModel;
 
                 Task.Run(addMusicLog);
-                Task.Run(() => checkMusicFavourited(CurrentMusic));
 
                 StrongReferenceMessenger.Default.Send(new CurrentMusicMessageModel()
                 {
@@ -66,19 +66,6 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             {
                 ApiService.GetInstance().Post<object>("/Setting/AddPlayMusicLog"
                         , "{\"id\":\"" + CurrentMusic.Id + "\",\"name\":\"string\"}");
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-        private async void checkMusicFavourited(MediaItemModel model)
-        {
-            try
-            {
-                var isMusicFavourited = ApiService.GetInstance().Post<GeneralResult>("/Music/IsMusicFavourited",
-                        "{\"id\":\"" + CurrentMusic.MusicId + "\",\"name\":\"string\"}");
-
-                model.Favourite = isMusicFavourited.status;
             }
             catch (Exception ex)
             {
@@ -118,8 +105,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             if (message.PlayNewInstance)
             {
                 CrossMediaManager.Current.Play(CurrentMusic);
-                foreach (var item in message.MusicList)
-                    CrossMediaManager.Current.Queue.Add(item);
+                QueueHelper.AddToQueue(message.MusicList.ToList());
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using Kotlin;
+﻿using CommunityToolkit.Maui.Alerts;
+using Kotlin;
 using MAUI.Playkon.ir.V2.Data;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
@@ -26,7 +27,8 @@ namespace MAUI.Playkon.ir.V2.Services
             }
             catch (Exception ex)
             {
-                throw ex;
+                Shell.Current.DisplaySnackbar("Network error");
+                return default(T);
             }
         }
 
@@ -55,7 +57,8 @@ namespace MAUI.Playkon.ir.V2.Services
             }
             catch (Exception ex)
             {
-                throw ex;
+                Shell.Current.DisplaySnackbar("Network error");
+                return default(T);
             }
         }
         private string getToken()
