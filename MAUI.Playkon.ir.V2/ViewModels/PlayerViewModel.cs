@@ -11,9 +11,9 @@ using System.Collections.ObjectModel;
 namespace MAUI.Playkon.ir.V2.ViewModels
 {
 
-    public partial class PlayerViewModel : ObservableObject, IRecipient<CurrentMusicMessageModel>
+    public partial class PlayerViewModel : ObservableObject
     {
-        #region Observable
+        #region Props
         [ObservableProperty]
         private MediaItemModel currentMusic;
 
@@ -40,12 +40,11 @@ namespace MAUI.Playkon.ir.V2.ViewModels
 
         #endregion
 
+        #region Ctor
         public PlayerViewModel(MediaItemModel music, ObservableCollection<MediaItemModel> list)
         {
-            StrongReferenceMessenger.Default.Register(this);
-
             CrossMediaManager.Current.StateChanged += Current_StateChanged;
-            //CrossMediaManager.Current.MediaItemChanged += Current_MediaItemChanged;
+            CrossMediaManager.Current.MediaItemChanged += Current_MediaItemChanged;
             CrossMediaManager.Current.MediaItemFailed += Current_MediaItemFailed;
             CrossMediaManager.Current.PositionChanged += Current_PositionChanged;
             CrossMediaManager.Current.Speed = 1;
@@ -53,7 +52,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             if (music != null)
                 CurrentMusic = music;
             else
-                CurrentMusic = CrossMediaManager.Current.Queue.Current as MediaItemModel;
+                CurrentMusic = (MediaItemModel)CrossMediaManager.Current.Queue.Current;
 
             if (list != null && list.Any())
             {
@@ -63,14 +62,15 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             {
                 QueueList = new ObservableCollection<MediaItemModel>();
                 foreach (var item in CrossMediaManager.Current.Queue)
-                    QueueList.Add(item as MediaItemModel);
+                    QueueList.Add((MediaItemModel)item);
             }
             Duration = CurrentMusic.Duration;
             Maximum = CurrentMusic.Duration.TotalSeconds;
             FavouriteIcon = CurrentMusic.Favourite ? "hearted.png" : "heart.png";
         }
+        #endregion
 
-        #region Command
+        #region Commands
         [RelayCommand]
         private void Share()
         {
@@ -79,7 +79,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             //    CrossMediaManager.Current.Queue.Current.MediaUri);
         }
         [RelayCommand]
-        private async Task Play()
+        private void Play()
         {
             CrossMediaManager.Current.PlayPause();
         }
@@ -99,37 +99,78 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 }
         }
         [RelayCommand]
-        private async void ChangeMusic(object obj)
+        private void ChangeMusic(object obj)
         {
             try
             {
+                MediaItemModel nextMusic = new MediaItemModel();
                 if ((string)obj == "P")
                 {
-                    var task = CrossMediaManager.Current.PlayPrevious();
-                    _ = task.ContinueWith((task) =>
-                    {
-                        StrongReferenceMessenger.Default.Send(new CurrentMusicMessageModel()
-                        {
-                            Music = CurrentMusic,
-                        });
-                    });
+                    nextMusic = (MediaItemModel)CrossMediaManager.Current.Queue.Previous;
                 }
                 else if ((string)obj == "N")
                 {
-                    var task = CrossMediaManager.Current.PlayNext();
-                    _ = task.ContinueWith((task) =>
-                    {
-                        StrongReferenceMessenger.Default.Send(new CurrentMusicMessageModel()
-                        {
-                            Music = CurrentMusic,
-                        });
-                    });
+                    nextMusic = (MediaItemModel)CrossMediaManager.Current.Queue.Next;
                 }
+                StrongReferenceMessenger.Default.Send(new MiniPlayerMessage()
+                {
+                    Music = nextMusic,
+                });
+                CurrentMusic = nextMusic;
             }
             catch (Exception ex)
             {
             }
         }
+        [RelayCommand]
+        private void PlaySelectedMusic()
+        {
+            if (CurrentMusic != null)
+            {
+                StrongReferenceMessenger.Default.Send(new MiniPlayerMessage()
+                {
+                    Music = CurrentMusic,
+                    PlayNewInstance = true,
+                });
+            }
+        }
+        [RelayCommand]
+        private void MakeFavourite()
+        {
+            var result = ApiService.GetInstance().Post<GeneralResult>("/Music/AddOrRemoveMusicFavourite",
+                "{\"id\":\"" + CurrentMusic.MusicId + "\",\"name\":\"string\"}");
+            if (result.status)
+            {
+                if (FavouriteIcon == "heart.png")
+                    FavouriteIcon = "hearted.png";
+                else
+                    FavouriteIcon = "heart.png";
+            }
+            else
+            {
+                Shell.Current.DisplayAlert("Faild to add to favourite", "Faild to add to favourite", "OK");
+            }
+        }
+        #endregion
+
+        #region Methods
+        private void checkMusicFavourited()
+        {
+            try
+            {
+                var isMusicFavourited = ApiService.GetInstance().Post<GeneralResult>("/Music/IsMusicFavourited",
+                        "{\"id\":\"" + CurrentMusic.MusicId + "\",\"name\":\"string\"}");
+
+                CurrentMusic.Favourite = isMusicFavourited.status;
+                FavouriteIcon = CurrentMusic.Favourite ? "hearted.png" : "heart.png";
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        #endregion
+
+        #region Events
         private void Current_MediaItemChanged(object? sender, MediaManager.Media.MediaItemEventArgs e)
         {
             try
@@ -153,56 +194,6 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         }
         private void Current_MediaItemFailed(object? sender, MediaManager.Media.MediaItemFailedEventArgs e)
         {
-        }
-
-        [RelayCommand]
-        private async Task PlaySelectedMusic()
-        {
-            if (CurrentMusic != null)
-            {
-                await CrossMediaManager.Current.Play(QueueList);
-                CrossMediaManager.Current.PlayQueueItem(CurrentMusic);
-            }
-        }
-
-        [RelayCommand]
-        private async void MakeFavourite()
-        {
-            var result = ApiService.GetInstance().Post<GeneralResult>("/Music/AddOrRemoveMusicFavourite",
-                "{\"id\":\"" + CurrentMusic.MusicId + "\",\"name\":\"string\"}");
-            if (result.status)
-            {
-                if (FavouriteIcon == "heart.png")
-                    FavouriteIcon = "hearted.png";
-                else
-                    FavouriteIcon = "heart.png";
-            }
-            else
-            {
-                Shell.Current.DisplayAlert("Faild to add to favourite", "Faild to add to favourite", "OK");
-            }
-        }
-        private async void checkMusicFavourited()
-        {
-            try
-            {
-                var isMusicFavourited = ApiService.GetInstance().Post<GeneralResult>("/Music/IsMusicFavourited",
-                        "{\"id\":\"" + CurrentMusic.MusicId + "\",\"name\":\"string\"}");
-
-                CurrentMusic.Favourite = isMusicFavourited.status;
-                FavouriteIcon = CurrentMusic.Favourite ? "hearted.png" : "heart.png";
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-
-        #endregion
-
-        #region Methods
-        public void Receive(CurrentMusicMessageModel message)
-        {
-            CurrentMusic = message.Music;
         }
         #endregion
     }

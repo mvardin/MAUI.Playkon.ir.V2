@@ -25,19 +25,21 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                     SearchCommand="{Binding SearchCommand}"
                     SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
 
-                    <ActivityIndicator IsRunning="{Binding ShowLoading}" IsVisible="{Binding ShowLoading}"/>
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                                       IsVisible="{Binding IsBusy}"/>
 
                     <CollectionView Margin="5,0,0,0" 
-                 VerticalScrollBarVisibility="Never"
-                 SelectionMode="Single"
-                 ItemsSource="{Binding MusicList}" 
-                 SelectedItem="{Binding SelectedMusic}"
-                 SelectionChangedCommand="{Binding PlayMusicCommand}">
+                                    IsVisible="{Binding !IsBusy}"
+                                     VerticalScrollBarVisibility="Never"
+                                     SelectionMode="Single"
+                                     ItemsSource="{Binding MusicList}" 
+                                     SelectedItem="{Binding SelectedMusic}"
+                                     SelectionChangedCommand="{Binding PlayMusicCommand}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout Margin="0,15,0,0">
                                     <Grid ColumnDefinitions="auto,auto,auto,*" 
-                      RowDefinitions="auto,auto">
+                                        RowDefinitions="auto,auto">
 
                                         <Label Text="{Binding rowCount}" 
                             TextColor="White"
@@ -49,13 +51,15 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                             Grid.RowSpan="2"/>
 
                                         <ffimageloading:CachedImage
-                            Source="{Binding DisplayImage}" 
-                            WidthRequest="50" 
-                            Margin="0,0,5,0"
-                            Grid.Column="1"
-                            Grid.RowSpan="2"
-                            LoadingPlaceholder="cdplayer.png" 
-                            ErrorPlaceholder="cdplayer.png"/>
+                                            Source="{Binding DisplayImage}" 
+                                            WidthRequest="50" 
+                                            HeightRequest="50"
+                                            VerticalOptions="Center"
+                                            Margin="0,0,5,5"
+                                            Grid.Column="1"
+                                            Grid.RowSpan="2"
+                                            LoadingPlaceholder="cdplayer.png" 
+                                            ErrorPlaceholder="cdplayer.png"/>
 
                                         <Label Text="{Binding Title}" 
                              TextColor="White"

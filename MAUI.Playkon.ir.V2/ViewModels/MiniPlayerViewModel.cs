@@ -10,8 +10,9 @@ using MediaManager.Library;
 
 namespace MAUI.Playkon.ir.V2.ViewModels
 {
-    internal partial class MiniPlayerViewModel : ObservableObject, IRecipient<CurrentMusicMessageModel>
+    internal partial class MiniPlayerViewModel : ObservableObject, IRecipient<MiniPlayerMessage>
     {
+        #region Props
         [ObservableProperty]
         private MediaItemModel currentMusic;
 
@@ -20,7 +21,9 @@ namespace MAUI.Playkon.ir.V2.ViewModels
 
         [ObservableProperty]
         private int showMiniPlayer = 0;
+        #endregion
 
+        #region Ctore
         public MiniPlayerViewModel()
         {
             if (CrossMediaManager.Current.Queue.Current != null)
@@ -36,32 +39,50 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             CrossMediaManager.Current.MediaItemChanged += Current_MediaItemChanged;
             CrossMediaManager.Current.StateChanged += Current_StateChanged;
         }
+        #endregion
 
+        #region Events
         private void Current_StateChanged(object? sender, MediaManager.Playback.StateChangedEventArgs e)
         {
-            if (CrossMediaManager.Current.State == MediaManager.Player.MediaPlayerState.Playing)
-                PlayIcon = "pausebutton.png";
-            else
-                PlayIcon = "playbutton.png";
+            switch (CrossMediaManager.Current.State)
+            {
+                case MediaManager.Player.MediaPlayerState.Stopped:
+                    PlayIcon = "playbutton.png";
+                    break;
+                case MediaManager.Player.MediaPlayerState.Loading:
+                    PlayIcon = "loading2.png";
+                    break;
+                case MediaManager.Player.MediaPlayerState.Buffering:
+                    PlayIcon = "loading2.png";
+                    break;
+                case MediaManager.Player.MediaPlayerState.Playing:
+                    PlayIcon = "pausebutton.png";
+                    break;
+                case MediaManager.Player.MediaPlayerState.Paused:
+                    PlayIcon = "playbutton.png";
+                    break;
+                case MediaManager.Player.MediaPlayerState.Failed:
+                    PlayIcon = "offbutton.png";
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void Current_MediaItemChanged(object? sender, MediaManager.Media.MediaItemEventArgs e)
         {
             try
             {
-                CurrentMusic = e.MediaItem as MediaItemModel;
-
                 Task.Run(addMusicLog);
-
-                //StrongReferenceMessenger.Default.Send(new CurrentMusicMessageModel()
-                //{
-                //    Music = CurrentMusic
-                //});
+                CurrentMusic = (MediaItemModel)e.MediaItem;
             }
             catch (Exception ex)
             {
             }
         }
+        #endregion
+
+        #region Methods
         private void addMusicLog()
         {
             try
@@ -73,8 +94,9 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             {
             }
         }
+        #endregion
 
-
+        #region Commands
         [RelayCommand]
         private async Task PlayOrPause()
         {
@@ -90,25 +112,19 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         {
             var task = CrossMediaManager.Current.PlayPrevious();
         }
+        #endregion
 
-        public async void Receive(CurrentMusicMessageModel message)
+        #region Recipients
+        public async void Receive(MiniPlayerMessage message)
         {
-            if (message.Music != null)
-                CurrentMusic = message.Music;
-            else if (message.MusicList != null)
-                CurrentMusic = message.MusicList.FirstOrDefault();
-
-            if (CrossMediaManager.Current.State == MediaManager.Player.MediaPlayerState.Playing)
-                PlayIcon = "pausebutton.png";
-            else PlayIcon = "playbutton.png";
-
             ShowMiniPlayer = 60;
 
             if (message.PlayNewInstance)
             {
-                await CrossMediaManager.Current.Play(message.MusicList);
-                CrossMediaManager.Current.PlayQueueItem(CurrentMusic);
+                CrossMediaManager.Current.Play(message.MusicList);
+                CrossMediaManager.Current.PlayQueueItem(message.Music);
             }
         }
+        #endregion
     }
 }

@@ -31,12 +31,15 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                 </StackLayout>
 
                 <ActivityIndicator IsRunning="{Binding IsAlbumsLoading}"
-                                   IsVisible="{Binding IsAlbumsLoading}"/>
+                                   IsVisible="{Binding IsAlbumsLoading}"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"/>
                 <CarouselView IsScrollAnimated="True"
-                    HorizontalScrollBarVisibility="Always"
-                    PeekAreaInsets="100"
-                    HeightRequest="100"
-                    ItemsSource="{Binding RecentAlbumList}">
+                                IsVisible="{Binding !IsAlbumsLoading}"
+                                HorizontalScrollBarVisibility="Always"
+                                PeekAreaInsets="100"
+                                HeightRequest="100"
+                                ItemsSource="{Binding RecentAlbumList}">
                     <CarouselView.ItemTemplate>
                         <DataTemplate>
                             <Grid
@@ -51,8 +54,8 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                                     Grid.ColumnSpan="2"
                                     Aspect="AspectFill"
                                     Source="{Binding cover}" 
-                                    LoadingPlaceholder="cdplayer.png" 
-                                    ErrorPlaceholder="cdplayer.png">
+                                    LoadingPlaceholder="blankmusic.png" 
+                                    ErrorPlaceholder="blankmusic.png">
                                 </ffimageloading:CachedImage>
                                 <Label Text="{Binding name}" 
                                    TextColor="White"
@@ -97,9 +100,13 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                 </StackLayout>
 
                 <ActivityIndicator IsRunning="{Binding IsArtistLoading}"
-                                   IsVisible="{Binding IsArtistLoading}"/>
+                                   IsVisible="{Binding IsArtistLoading}"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"/>
+
                 <CarouselView HeightRequest="100"
                       PeekAreaInsets="100"
+                              IsVisible="{Binding !IsArtistLoading}"
                       ItemsSource="{Binding RecentArtistList}">
                     <CarouselView.ItemTemplate>
                         <DataTemplate>
@@ -115,8 +122,8 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                                     Grid.ColumnSpan="2"
                                     Source="{Binding cover}" 
                                     Aspect="AspectFill"
-                                    LoadingPlaceholder="cdplayer.png" 
-                                    ErrorPlaceholder="cdplayer.png">
+                                    LoadingPlaceholder="blankmusic.png" 
+                                    ErrorPlaceholder="blankmusic.png">
                                 </ffimageloading:CachedImage>
 
                                 <Label Text="{Binding name}" 
@@ -161,8 +168,10 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                             Clicked="btnMoreMusics"/>
                 </StackLayout>
                 <ActivityIndicator IsRunning="{Binding IsMusicLoading}"
-                                   IsVisible="{Binding IsMusicLoading}"/>
-                <CollectionView Margin="5,0,0,0" 
+                                   IsVisible="{Binding IsMusicLoading}"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"/>
+                <CollectionView Margin="5,0,0,0" IsVisible="{Binding !IsMusicLoading}"
                              VerticalScrollBarVisibility="Never"
                              SelectionMode="Single"
                              ItemsSource="{Binding RecentMusicList}" 
@@ -186,11 +195,13 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                                     <ffimageloading:CachedImage
                                         Source="{Binding DisplayImage}" 
                                         WidthRequest="50" 
-                                        Margin="0,0,5,0"
+                                        HeightRequest="50"
+                                        VerticalOptions="Center"
+                                        Margin="0,0,5,5"
                                         Grid.Column="1"
                                         Grid.RowSpan="2"
-                                        LoadingPlaceholder="cdplayer.png" 
-                                        ErrorPlaceholder="cdplayer.png"/>
+                                        LoadingPlaceholder="blankmusic.png" 
+                                        ErrorPlaceholder="blankmusic.png"/>
 
                                     <Label Text="{Binding Title}" 
                                          TextColor="White"

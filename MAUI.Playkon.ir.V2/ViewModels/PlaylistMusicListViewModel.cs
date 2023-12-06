@@ -9,8 +9,9 @@ using System.Collections.ObjectModel;
 
 namespace MAUI.Playkon.ir.V2.ViewModels
 {
-    public partial class PlaylistMusicListViewModel : ObservableObject, IRecipient<CurrentMusicMessageModel>
+    public partial class PlaylistMusicListViewModel : ObservableObject
     {
+        #region Props
         [ObservableProperty]
         private bool isBusy = false;
 
@@ -28,37 +29,39 @@ namespace MAUI.Playkon.ir.V2.ViewModels
 
         [ObservableProperty]
         private MediaItemModel selectedMusic;
+        public string Id { get; }
+        public PlaylistType Type { get; }
+        #endregion
 
+        #region Commands
         [RelayCommand]
-        private async Task PlayAsync()
+        private void PlayMusic()
         {
-            //var viewModel = new PlayerViewModel(MusicList.FirstOrDefault(), MusicList);
-            //var playerPage = new PlayerPage { BindingContext = viewModel };
-
-            //Shell.Current.Navigation.PushAsync(playerPage, true);
-
-            StrongReferenceMessenger.Default.Send(new CurrentMusicMessageModel()
+            _ = StrongReferenceMessenger.Default.Send(new MiniPlayerMessage()
             {
-                Music = null,
-                PlayNewInstance = true,
-                MusicList = MusicList
+                Music = SelectedMusic,
+                MusicList = MusicList,
+                PlayNewInstance = true
             });
         }
+        #endregion
 
+        #region Ctor
         public PlaylistMusicListViewModel(string id, PlaylistType type)
         {
-            //StrongReferenceMessenger.Default.Register(this);
             MusicList = new ObservableCollection<MediaItemModel>();
             Id = id;
             Type = type;
 
             Task.Run(populateList);
         }
+        #endregion
 
+        #region Methods
         private void populateList()
         {
             IsBusy = true;
-            Task.Run(async () =>
+            Task.Run(() =>
             {
                 try
                 {
@@ -99,14 +102,8 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 IsBusy = false;
             });
         }
+        #endregion
 
-        public void Receive(CurrentMusicMessageModel message)
-        {
-            //SelectedMusic = message.Music;
-        }
-
-        public string Id { get; }
-        public PlaylistType Type { get; }
     }
     public enum PlaylistType
     {

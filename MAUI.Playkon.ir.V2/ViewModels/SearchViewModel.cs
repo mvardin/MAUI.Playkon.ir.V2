@@ -9,8 +9,9 @@ using System.Collections.ObjectModel;
 
 namespace MAUI.Playkon.ir.V2.ViewModels
 {
-    public partial class SearchViewModel : ObservableObject, IRecipient<CurrentMusicMessageModel>
+    public partial class SearchViewModel : ObservableObject
     {
+        #region Props
         [ObservableProperty]
         private bool isBusy;
 
@@ -19,31 +20,39 @@ namespace MAUI.Playkon.ir.V2.ViewModels
 
         [ObservableProperty]
         private MediaItemModel selectedMusic;
+        #endregion
 
+        #region Ctor
         public SearchViewModel()
         {
-            //StrongReferenceMessenger.Default.Register(this);
         }
+        #endregion
 
-        public async void SearchMethod(string q)
+        #region Methods
+        public void SearchMethod(string q)
         {
             IsBusy = true;
-            try
+            _ = Task.Run(() =>
             {
-                var result = ApiService.GetInstance().Post<SongResult>("/Music/Search", "{\"q\":\"" + q + "\",\"page\":1,\"take\":50}");
+                try
+                {
+                    var result = ApiService.GetInstance().Post<SongResult>("/Music/Search", "{\"q\":\"" + q + "\",\"page\":1,\"take\":50}");
 
-                var list = new ObservableCollection<MediaItemModel>();
-                foreach (var item in result.items)
-                    list.Add(MediaManagerConverter.SongToMediaItem(item));
+                    var list = new ObservableCollection<MediaItemModel>();
+                    foreach (var item in result.items)
+                        list.Add(MediaManagerConverter.SongToMediaItem(item));
 
-                MusicList = list;
-            }
-            catch (Exception ex)
-            {
-            }
-            IsBusy = false;
+                    MusicList = list;
+                }
+                catch (Exception ex)
+                {
+                }
+                IsBusy = false;
+            });
         }
+        #endregion
 
+        #region Commands
         [RelayCommand]
         public void Search(object obj)
         {
@@ -68,16 +77,11 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             });
         }
         [RelayCommand]
-        private async Task PlayMusic()
+        private void PlayMusic()
         {
             if (SelectedMusic != null)
             {
-                //var viewModel = new PlayerViewModel(SelectedMusic, MusicList);
-                //var playerPage = new PlayerPage { BindingContext = viewModel };
-
-                //Shell.Current.Navigation.PushAsync(playerPage, true);
-
-                StrongReferenceMessenger.Default.Send(new CurrentMusicMessageModel()
+                StrongReferenceMessenger.Default.Send(new MiniPlayerMessage()
                 {
                     Music = SelectedMusic,
                     PlayNewInstance = true,
@@ -85,10 +89,6 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 });
             }
         }
-
-        public void Receive(CurrentMusicMessageModel message)
-        {
-            //SelectedMusic = message.Music;
-        }
+        #endregion
     }
 }

@@ -10,8 +10,9 @@ using System.Collections.ObjectModel;
 
 namespace MAUI.Playkon.ir.V2.ViewModels
 {
-    public partial class HomeViewModel : ObservableObject, IRecipient<CurrentMusicMessageModel>
+    public partial class HomeViewModel : ObservableObject
     {
+        #region Props
         [ObservableProperty]
         private ObservableCollection<MediaItemModel> recentMusicList;
         [ObservableProperty]
@@ -29,34 +30,34 @@ namespace MAUI.Playkon.ir.V2.ViewModels
 
         [ObservableProperty]
         private MediaItemModel selectedMusic;
+        #endregion
 
+        #region Ctor
         public HomeViewModel()
         {
-            StrongReferenceMessenger.Default.Register(this);
             Task.Run(GetMusics);
             Task.Run(GetAlbums);
             Task.Run(GetArtists);
         }
+        #endregion
 
+        #region Commands
         [RelayCommand]
         private async void Selection()
         {
             if (SelectedMusic != null)
             {
-                //var viewModel = new PlayerViewModel(SelectedMusic, RecentMusicList);
-                //var playerPage = new PlayerPage { BindingContext = viewModel };
-
-                StrongReferenceMessenger.Default.Send(new CurrentMusicMessageModel()
+                StrongReferenceMessenger.Default.Send(new MiniPlayerMessage()
                 {
                     Music = SelectedMusic,
                     PlayNewInstance = true,
-                    MusicList = recentMusicList
+                    MusicList = RecentMusicList
                 });
-
-                //Shell.Current.Navigation.PushAsync(playerPage, true);
             }
         }
+        #endregion
 
+        #region Methods
         public async Task GetMusics()
         {
             IsMusicLoading = true;
@@ -120,10 +121,9 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 IsArtistLoading = false;
             });
         }
+        #endregion
 
-        public void Receive(CurrentMusicMessageModel message)
-        {
-            SelectedMusic = message.Music;
-        }
+        #region Reciepiens
+        #endregion
     }
 }

@@ -36,6 +36,7 @@
 	  <AndroidUseAapt2>True</AndroidUseAapt2>
 	  <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
 	  <AndroidPackageFormat>apk</AndroidPackageFormat>
+	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
@@ -68,6 +69,7 @@
 		<None Remove="Resources\Images\actionstop.png" />
 		<None Remove="Resources\Images\back.png" />
 		<None Remove="Resources\Images\background.png" />
+		<None Remove="Resources\Images\blankMusic.jpg" />
 		<None Remove="Resources\Images\cdplayer.png" />
 		<None Remove="Resources\Images\delete.png" />
 		<None Remove="Resources\Images\edit.png" />
@@ -78,6 +80,9 @@
 		<None Remove="Resources\Images\home.png" />
 		<None Remove="Resources\Images\icon.png" />
 		<None Remove="Resources\Images\keysol.png" />
+		<None Remove="Resources\Images\loading1.gif" />
+		<None Remove="Resources\Images\loading2.png" />
+		<None Remove="Resources\Images\loading3.gif" />
 		<None Remove="Resources\Images\microphone.png" />
 		<None Remove="Resources\Images\minusbutton.png" />
 		<None Remove="Resources\Images\musicfile.png" />
