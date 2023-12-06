@@ -11,7 +11,7 @@ using System.Collections.ObjectModel;
 namespace MAUI.Playkon.ir.V2.ViewModels
 {
 
-    public partial class PlayerViewModel : ObservableObject
+    public partial class PlayerViewModel : ObservableObject , IPlayerViewModel
     {
         #region Props
         [ObservableProperty]
@@ -38,10 +38,11 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         [ObservableProperty]
         private string favouriteIcon = "heart.png";
 
+
         #endregion
 
         #region Ctor
-        public PlayerViewModel(MediaItemModel music, ObservableCollection<MediaItemModel> list)
+        public PlayerViewModel()
         {
             CrossMediaManager.Current.StateChanged += Current_StateChanged;
             CrossMediaManager.Current.MediaItemChanged += Current_MediaItemChanged;
@@ -49,21 +50,13 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             CrossMediaManager.Current.PositionChanged += Current_PositionChanged;
             CrossMediaManager.Current.Speed = 1;
 
-            if (music != null)
-                CurrentMusic = music;
-            else
+            if (CrossMediaManager.Current.Queue != null && CrossMediaManager.Current.Queue.Current != null)
                 CurrentMusic = (MediaItemModel)CrossMediaManager.Current.Queue.Current;
 
-            if (list != null && list.Any())
-            {
-                QueueList = list;
-            }
-            else
-            {
-                QueueList = new ObservableCollection<MediaItemModel>();
-                foreach (var item in CrossMediaManager.Current.Queue)
-                    QueueList.Add((MediaItemModel)item);
-            }
+            QueueList = new ObservableCollection<MediaItemModel>();
+            foreach (var item in CrossMediaManager.Current.Queue)
+                QueueList.Add((MediaItemModel)item);
+
             Duration = CurrentMusic.Duration;
             Maximum = CurrentMusic.Duration.TotalSeconds;
             FavouriteIcon = CurrentMusic.Favourite ? "hearted.png" : "heart.png";
@@ -72,19 +65,19 @@ namespace MAUI.Playkon.ir.V2.ViewModels
 
         #region Commands
         [RelayCommand]
-        private void Share()
+        public void Share()
         {
             //TODO Ardin
             //Microsoft.Maui.Share.RequestAsync(
             //    CrossMediaManager.Current.Queue.Current.MediaUri);
         }
         [RelayCommand]
-        private void Play()
+        public void Play()
         {
             CrossMediaManager.Current.PlayPause();
         }
         [RelayCommand]
-        private void Mute()
+        public void Mute()
         {
             if (CrossMediaManager.Current.Volume != null)
                 if (CrossMediaManager.Current.Volume.Muted)
@@ -99,7 +92,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 }
         }
         [RelayCommand]
-        private void ChangeMusic(object obj)
+        public void ChangeMusic(object obj)
         {
             try
             {
@@ -112,10 +105,6 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 {
                     nextMusic = (MediaItemModel)CrossMediaManager.Current.Queue.Next;
                 }
-                StrongReferenceMessenger.Default.Send(new MiniPlayerMessage()
-                {
-                    Music = nextMusic,
-                });
                 CurrentMusic = nextMusic;
             }
             catch (Exception ex)
@@ -123,7 +112,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             }
         }
         [RelayCommand]
-        private void PlaySelectedMusic()
+        public void PlaySelectedMusic()
         {
             if (CurrentMusic != null)
             {
@@ -135,7 +124,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             }
         }
         [RelayCommand]
-        private void MakeFavourite()
+        public void MakeFavourite()
         {
             var result = ApiService.GetInstance().Post<GeneralResult>("/Music/AddOrRemoveMusicFavourite",
                 "{\"id\":\"" + CurrentMusic.MusicId + "\",\"name\":\"string\"}");
@@ -187,10 +176,29 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         }
         private void Current_StateChanged(object? sender, MediaManager.Playback.StateChangedEventArgs e)
         {
-            if (CrossMediaManager.Current.State == MediaManager.Player.MediaPlayerState.Playing)
-                PlayIcon = "pausebutton.png";
-            else
-                PlayIcon = "playbutton.png";
+            switch (CrossMediaManager.Current.State)
+            {
+                case MediaManager.Player.MediaPlayerState.Stopped:
+                    PlayIcon = "playbutton.png";
+                    break;
+                case MediaManager.Player.MediaPlayerState.Loading:
+                    PlayIcon = "loading2.png";
+                    break;
+                case MediaManager.Player.MediaPlayerState.Buffering:
+                    PlayIcon = "loading2.png";
+                    break;
+                case MediaManager.Player.MediaPlayerState.Playing:
+                    PlayIcon = "pausebutton.png";
+                    break;
+                case MediaManager.Player.MediaPlayerState.Paused:
+                    PlayIcon = "playbutton.png";
+                    break;
+                case MediaManager.Player.MediaPlayerState.Failed:
+                    PlayIcon = "offbutton.png";
+                    break;
+                default:
+                    break;
+            }
         }
         private void Current_MediaItemFailed(object? sender, MediaManager.Media.MediaItemFailedEventArgs e)
         {

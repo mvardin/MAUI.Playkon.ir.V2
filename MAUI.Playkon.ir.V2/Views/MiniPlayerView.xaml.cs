@@ -12,7 +12,7 @@ namespace MAUI.Playkon.ir.V2.Views
         }
         private void btnShowPlayer(object sender, TappedEventArgs e)
         {
-            var viewModel = new PlayerViewModel(null, null);
+            var viewModel = new PlayerViewModel();
             var playerPage = new PlayerPage { BindingContext = viewModel };
             Navigation.PushModalAsync(playerPage, true);
         }

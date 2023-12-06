@@ -121,7 +121,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
 
             if (message.PlayNewInstance)
             {
-                if (!Tools.CompareList(CrossMediaManager.Current.Queue, message.MusicList))
+                if (message.MusicList != null && !Tools.CompareList(CrossMediaManager.Current.Queue, message.MusicList))
                     CrossMediaManager.Current.Play(message.MusicList);
                 CrossMediaManager.Current.PlayQueueItem(message.Music);
             }

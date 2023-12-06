@@ -5,6 +5,7 @@ using FFImageLoading.Maui;
 using MediaManager.Platforms.Android.MediaSession;
 using MAUI.Playkon.ir.V2.Services;
 using MAUI.Playkon.ir.V2.Helper;
+using MAUI.Playkon.ir.V2.ViewModels;
 
 namespace MAUI.Playkon.ir.V2
 {
@@ -25,8 +26,10 @@ namespace MAUI.Playkon.ir.V2
 
             CrossMediaManager.Current.Init();
 
+            //builder.Services.AddSingleton<IPlayerViewModel, PlayerViewModel>();
+
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();
