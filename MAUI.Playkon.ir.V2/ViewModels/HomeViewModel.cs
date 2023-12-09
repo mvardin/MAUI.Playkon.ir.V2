@@ -1,4 +1,5 @@
 ﻿using Android.Provider;
+using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -77,7 +78,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 }
                 catch (System.Exception ex)
                 {
-                    //show error
+                    Shell.Current.DisplaySnackbar("Error:" + ex.Message, null, "OK");
                 }
                 IsMusicLoading = false;
             });
@@ -97,7 +98,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 }
                 catch (System.Exception ex)
                 {
-                    //show error
+                    Shell.Current.DisplaySnackbar("Error:" + ex.Message, null, "OK");
                 }
                 IsAlbumsLoading = false;
             });
@@ -117,7 +118,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 }
                 catch (System.Exception ex)
                 {
-                    //show error
+                    Shell.Current.DisplaySnackbar("Error:" + ex.Message, null, "OK");
                 }
                 IsArtistLoading = false;
             });

@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MAUI.Playkon.ir.V2.Models;
 using MAUI.Playkon.ir.V2.Pages;
@@ -71,6 +72,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             }
             catch (Exception ex)
             {
+                Shell.Current.DisplaySnackbar("Error:" + ex.Message, null, "OK");
             }
         }
     }

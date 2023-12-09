@@ -8,25 +8,32 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
         <Label Text="Register" 
                TextColor="White"
                FontSize="Large" 
+               Margin="0,0,0,30"
                HorizontalOptions="Center" />
         <Entry Placeholder="Enter your mobile number"
                TextColor="White"
                PlaceholderColor="White"
                Keyboard="Telephone"
                Text="{Binding Username}"
-               />   
+               />
         <Entry Placeholder="Enter your password"
                TextColor="White"
                 PlaceholderColor="White"
                 Text="{Binding Password}"
                 IsPassword="True" />
+        <Entry Placeholder="Enter confirm your password"
+               TextColor="White"
+                PlaceholderColor="White"
+                Text="{Binding ConfirmPassword}"
+                IsPassword="True" />
         <ActivityIndicator IsVisible="{Binding IsLoading}" IsRunning="{Binding IsLoading}"/>
-        <Button Text="Login"
+        <Button Text="Register"
+                Margin="0,30,0,0"
                 TextColor="White"
                 IsEnabled="{Binding !IsLoading}"
                 IsVisible="{Binding !IsLoading}"
                 BackgroundColor="#6500C5"
-                Command="{Binding LoginCommand}"/>
-
+                Command="{Binding RegisterCommand}"/>
+        <Button Text="Or Login" Clicked="gotoLoginForm" BackgroundColor="Transparent"/>
     </StackLayout>
 </ContentPage>

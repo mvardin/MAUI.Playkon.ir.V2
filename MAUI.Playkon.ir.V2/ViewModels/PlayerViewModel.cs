@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using MAUI.Playkon.ir.V2.Helper;
@@ -109,6 +110,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             }
             catch (Exception ex)
             {
+                Shell.Current.DisplaySnackbar("Error:" + ex.Message, null, "OK");
             }
         }
         [RelayCommand]
@@ -136,7 +138,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             }
             else
             {
-                Shell.Current.DisplayAlert("Faild to add to favourite", "Faild to add to favourite", "OK");
+                Shell.Current.DisplaySnackbar("Faild to add to favourite", null, "OK");
             }
         }
         #endregion
@@ -154,6 +156,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             }
             catch (Exception ex)
             {
+                Shell.Current.DisplaySnackbar("Error:" + ex.Message, null, "OK");
             }
         }
 

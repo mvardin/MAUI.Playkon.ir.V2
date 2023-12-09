@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MAUI.Playkon.ir.V2.Data;
 using MAUI.Playkon.ir.V2.Models;
@@ -49,13 +50,13 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                     }
                     else
                     {
-                        Application.Current.MainPage.DisplayAlert("Login faild", "Wrong username or password", "OK");
+                        Shell.Current.DisplaySnackbar("Wrong username or password", null, "OK");
 
                     }
                 }
                 catch (Exception ex)
                 {
-                    Application.Current.MainPage.DisplayAlert("Login faild", ex.Message, "OK");
+                    Shell.Current.DisplaySnackbar("Login faild," + ex.Message, null, "OK");
                 }
                 finally
                 {
@@ -91,22 +92,19 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                                 token = result.token,
                                 username = result.username
                             });
-                            SecureStorage.SetAsync("isLogged", "true").Wait();
-                            SecureStorage.SetAsync("token", result.token).Wait();
-                            Application.Current.MainPage = new AppShell();
-                            Shell.Current.GoToAsync("///home");
+                            await Shell.Current.GoToAsync("///home");
                         }
                         else
-                            Application.Current.MainPage.DisplayAlert("Register faild", "Please select correct username and password", "OK");
+                            Shell.Current.DisplaySnackbar("Please select correct username and password", null, "OK");
                     }
                     else
                     {
-                        Application.Current.MainPage.DisplayAlert("Register faild", "Please select correct username and password", "OK");
+                        Shell.Current.DisplaySnackbar("Please select correct username and password", null, "OK");
                     }
                 }
                 catch (Exception ex)
                 {
-                    Application.Current.MainPage.DisplayAlert("Register faild", ex.Message, "OK");
+                    Shell.Current.DisplaySnackbar("Register faild, error: " + ex.Message, null, "OK");
                 }
                 finally
                 {
