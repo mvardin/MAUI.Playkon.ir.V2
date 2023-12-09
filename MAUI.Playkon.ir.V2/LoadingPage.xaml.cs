@@ -1,3 +1,6 @@
+using Android.Accounts;
+using MAUI.Playkon.ir.V2.Data;
+
 namespace MAUI.Playkon.ir.V2;
 
 public partial class LoadingPage : ContentPage
@@ -17,9 +20,9 @@ public partial class LoadingPage : ContentPage
         {
             await Task.Delay(2000);
 
-            var hasAuth = await SecureStorage.GetAsync("isLogged");
+            var account = new AccountData().Get();
 
-            if (!(hasAuth == null))
+            if (account != null && !string.IsNullOrEmpty(account.token))
             {
                 await Shell.Current.GoToAsync("//home");
             }

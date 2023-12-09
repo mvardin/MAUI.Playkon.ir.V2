@@ -4,8 +4,7 @@ namespace MAUI.Playkon.ir.V2.Models
 {
     public class MiniPlayerMessage
     {
-        public MediaItemModel Music { get; set; }
-        public ObservableCollection<MediaItemModel> MusicList { get; set; }
-        public bool PlayNewInstance { get; set; } = false;
+        public MediaItemModel CurrentMusic { get; set; }
+        public ObservableCollection<MediaItemModel> QueueLList { get; set; }
     }
 }

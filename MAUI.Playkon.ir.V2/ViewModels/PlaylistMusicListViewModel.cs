@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 
 namespace MAUI.Playkon.ir.V2.ViewModels
 {
-    public partial class PlaylistMusicListViewModel : ObservableObject
+    public partial class PlaylistMusicListViewModel : ObservableObject, IRecipient<MiniPlayerMessage>
     {
         #region Props
         [ObservableProperty]
@@ -35,13 +35,17 @@ namespace MAUI.Playkon.ir.V2.ViewModels
 
         #region Commands
         [RelayCommand]
-        private void PlayMusic()
+        private void PlayPlaylistMusic()
         {
-            _ = StrongReferenceMessenger.Default.Send(new MiniPlayerMessage()
+            SelectedMusic = MusicList.FirstOrDefault();
+        }
+        [RelayCommand]
+        private void PlaySelectedMusic()
+        {
+            StrongReferenceMessenger.Default.Send(new MiniPlayerMessage()
             {
-                Music = SelectedMusic,
-                MusicList = MusicList,
-                PlayNewInstance = true
+                CurrentMusic = SelectedMusic,
+                QueueLList = MusicList,
             });
         }
         #endregion
@@ -49,6 +53,8 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         #region Ctor
         public PlaylistMusicListViewModel(string id, PlaylistType type)
         {
+            StrongReferenceMessenger.Default.Register(this);
+
             MusicList = new ObservableCollection<MediaItemModel>();
             Id = id;
             Type = type;
@@ -61,14 +67,14 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         private void populateList()
         {
             IsBusy = true;
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 try
                 {
                     switch (Type)
                     {
                         case PlaylistType.Album:
-                            var albumResult = ApiService.GetInstance().Post<AlbumMusicListResult>("/Music/AlbumMusicList", "{\"id\":\"" + Id + "\",\"page\":1,\"take\":50}");
+                            var albumResult = await ApiService.GetInstance().Post<AlbumMusicListResult>("/Music/AlbumMusicList", "{\"id\":\"" + Id + "\",\"page\":1,\"take\":50}");
                             foreach (var item in albumResult.items)
                                 MusicList.Add(MediaManagerConverter.SongToMediaItem(item));
                             MusicCount = albumResult.album.musicCount.ToString();
@@ -76,7 +82,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                             Cover = albumResult.album.coverDisplay;
                             break;
                         case PlaylistType.Artist:
-                            var artistResult = ApiService.GetInstance().Post<ArtistMusicResult>("/Music/ArtistMusicList", "{\"id\":\"" + Id + "\",\"page\":1,\"take\":50}");
+                            var artistResult = await ApiService.GetInstance().Post<ArtistMusicResult>("/Music/ArtistMusicList", "{\"id\":\"" + Id + "\",\"page\":1,\"take\":50}");
                             foreach (var item in artistResult.items)
                                 MusicList.Add(MediaManagerConverter.SongToMediaItem(item));
                             MusicCount = artistResult.artist.musicCount.ToString();
@@ -84,7 +90,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                             Cover = artistResult.artist.coverDisplay;
                             break;
                         case PlaylistType.Playlist:
-                            var playlistResult = ApiService.GetInstance().Post<AlbumMusicListResult>("/PlaylistMusic/List",
+                            var playlistResult = await ApiService.GetInstance().Post<AlbumMusicListResult>("/PlaylistMusic/List",
                                 "{\"id\":\"" + Id + "\"}");
                             foreach (var item in playlistResult.items)
                                 MusicList.Add(MediaManagerConverter.SongToMediaItem(item));
@@ -102,7 +108,12 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 IsBusy = false;
             });
         }
+
         #endregion
+        public void Receive(MiniPlayerMessage message)
+        {
+            //SelectedMusic = message.CurrentMusic;
+        }
 
     }
     public enum PlaylistType

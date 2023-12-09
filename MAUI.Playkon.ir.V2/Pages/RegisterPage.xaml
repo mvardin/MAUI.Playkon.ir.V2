@@ -13,18 +13,20 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                TextColor="White"
                PlaceholderColor="White"
                Keyboard="Telephone"
-               x:Name="txtUsername"
-               />
+               Text="{Binding Username}"
+               />   
         <Entry Placeholder="Enter your password"
                TextColor="White"
-               PlaceholderColor="White"
-               IsPassword="True"
-               x:Name="txtPassword"
-       />
-        <Button Text="Register"
+                PlaceholderColor="White"
+                Text="{Binding Password}"
+                IsPassword="True" />
+        <ActivityIndicator IsVisible="{Binding IsLoading}" IsRunning="{Binding IsLoading}"/>
+        <Button Text="Login"
                 TextColor="White"
+                IsEnabled="{Binding !IsLoading}"
+                IsVisible="{Binding !IsLoading}"
                 BackgroundColor="#6500C5"
-                Clicked="btnRegister" />
-        <Button Text="Or login" Clicked="gotoLoginForm" BackgroundColor="Transparent"/>
+                Command="{Binding LoginCommand}"/>
+
     </StackLayout>
 </ContentPage>

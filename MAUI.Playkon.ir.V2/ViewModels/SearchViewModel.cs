@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 
 namespace MAUI.Playkon.ir.V2.ViewModels
 {
-    public partial class SearchViewModel : ObservableObject
+    public partial class SearchViewModel : ObservableObject, IRecipient<MiniPlayerMessage>
     {
         #region Props
         [ObservableProperty]
@@ -25,6 +25,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         #region Ctor
         public SearchViewModel()
         {
+            StrongReferenceMessenger.Default.Register(this);
         }
         #endregion
 
@@ -32,11 +33,11 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         public void SearchMethod(string q)
         {
             IsBusy = true;
-            _ = Task.Run(() =>
+            _ = Task.Run(async () =>
             {
                 try
                 {
-                    var result = ApiService.GetInstance().Post<SongResult>("/Music/Search", "{\"q\":\"" + q + "\",\"page\":1,\"take\":50}");
+                    var result = await ApiService.GetInstance().Post<SongResult>("/Music/Search", "{\"q\":\"" + q + "\",\"page\":1,\"take\":50}");
 
                     var list = new ObservableCollection<MediaItemModel>();
                     foreach (var item in result.items)
@@ -62,7 +63,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 try
                 {
                     string q = obj.ToString();
-                    var result = ApiService.GetInstance().Post<SongResult>("/Music/Search", "{\"q\":\"" + q + "\",\"page\":1,\"take\":50}");
+                    var result = await ApiService.GetInstance().Post<SongResult>("/Music/Search", "{\"q\":\"" + q + "\",\"page\":1,\"take\":50}");
 
                     var list = new ObservableCollection<MediaItemModel>();
                     foreach (var item in result.items)
@@ -79,16 +80,17 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         [RelayCommand]
         private void PlayMusic()
         {
-            if (SelectedMusic != null)
+            StrongReferenceMessenger.Default.Send(new MiniPlayerMessage()
             {
-                StrongReferenceMessenger.Default.Send(new MiniPlayerMessage()
-                {
-                    Music = SelectedMusic,
-                    PlayNewInstance = true,
-                    MusicList = MusicList
-                });
-            }
+                CurrentMusic = SelectedMusic,
+                QueueLList = MusicList
+            });
         }
         #endregion
+
+        public void Receive(MiniPlayerMessage message)
+        {
+            //SelectedMusic = message.CurrentMusic;
+        }
     }
 }

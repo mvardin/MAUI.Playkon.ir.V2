@@ -32,7 +32,7 @@ namespace MAUI.Playkon.ir.V2.Services
             }
         }
 
-        public T Post<T>(string action, string data)
+        public async Task<T> Post<T>(string action, string data)
         {
             try
             {
@@ -47,9 +47,9 @@ namespace MAUI.Playkon.ir.V2.Services
                 request.Content = new StringContent(data);
                 request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-                HttpResponseMessage response = client.SendAsync(request).Result;
+                HttpResponseMessage response = await client.SendAsync(request);
                 response.EnsureSuccessStatusCode();
-                string responseBody = response.Content.ReadAsStringAsync().Result;
+                string responseBody = await response.Content.ReadAsStringAsync();
 
                 var result = JsonConvert.DeserializeObject<T>(responseBody);
 

@@ -33,7 +33,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                            HeightRequest="40"
                            Margin="15,0,0,10"
                            HorizontalOptions="Start"
-                           Command="{Binding PlayMusicCommand}"
+                           Command="{Binding PlayPlaylistMusicCommand}"
                            CommandParameter="{Binding Title}"></ImageButton>
 
                         <Label Grid.Row="2" 
@@ -51,19 +51,34 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                                VerticalOptions="Center"
                                Margin="0,0,0,0"/>
 
-                        <StackLayout Grid.Row="4"
-                         Padding="10">
+                        <StackLayout Grid.Row="4"  Padding="10">
                             <CollectionView SelectionMode="Single" 
-                                ItemsSource="{Binding MusicList}" 
-                                SelectedItem="{Binding SelectedMusic}"
-                                SelectionChangedCommand="{Binding PlayMusicCommand}">
+                                            x:Name="cvPlaylist"
+                                            ItemsSource="{Binding MusicList}" 
+                                            SelectedItem="{Binding SelectedMusic}"
+                                            SelectionChangedCommand="{Binding PlaySelectedMusicCommand}">
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
-                                        <StackLayout Margin="0,15,0,0">
-                                            <Grid ColumnDefinitions="auto,auto,auto,*" 
+                                        <SwipeView>
+                                            <SwipeView.LeftItems>
+                                                <SwipeItems>
+                                                    <!--<SwipeItem Text="Favorite"
+                                                       IconImageSource="favorite.png"
+                                                       BackgroundColor="LightGreen"
+                                                       Command="{Binding Source={x:Reference cvPlaylist}, Path=BindingContext.EditCommand}"
+                                                       CommandParameter="{Binding}" />-->
+                                                    <SwipeItem Text="Delete"
+                                                       IconImageSource="delete.png"
+                                                       BackgroundColor="Transparent"
+                                                       Command="{Binding Source={x:Reference cvPlaylist}, Path=BindingContext.DeleteCommand}"
+                                                       CommandParameter="{Binding}" />
+                                                </SwipeItems>
+                                            </SwipeView.LeftItems>
+                                            <StackLayout Margin="0,15,0,0">
+                                                <Grid ColumnDefinitions="auto,auto,auto,*" 
                                                     RowDefinitions="auto,auto">
 
-                                                <Label Text="{Binding rowCount}" 
+                                                    <Label Text="{Binding rowCount}" 
                                                         TextColor="White"
                                                         FontSize="14"
                                                         VerticalOptions="Center"
@@ -72,7 +87,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                                                         Grid.Column="0" 
                                                         Grid.RowSpan="2"/>
 
-                                                <ffimageloading:CachedImage
+                                                    <ffimageloading:CachedImage
                                                         Source="{Binding DisplayImage}" 
                                                         WidthRequest="50" 
                                                         HeightRequest="50"
@@ -83,19 +98,19 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                                                         LoadingPlaceholder="cdplayer.png" 
                                                         ErrorPlaceholder="cdplayer.png"/>
 
-                                                <Label Text="{Binding Title}" 
+                                                    <Label Text="{Binding Title}" 
                                                          TextColor="White"
                                                          FontSize="17"
                                                          VerticalOptions="Center"
                                                          Grid.Column="2" 
                                                          Grid.Row="0"/>
-                                                <Label Text="{Binding Artist}" 
+                                                    <Label Text="{Binding Artist}" 
                                                         TextColor="White"
                                                         FontSize="12" 
                                                         Opacity="0.5" 
                                                         Grid.Column="2" 
                                                         Grid.Row="1"/>
-                                                <Label Text="{Binding TatalDuration}" 
+                                                    <Label Text="{Binding TatalDuration}" 
                                                             TextColor="White"
                                                             FontSize="12" 
                                                             Opacity="0.5" 
@@ -104,13 +119,15 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                                                             Margin="0,0,30,0"
                                                             Grid.Column="3" 
                                                             Grid.RowSpan="2"/>
-                                            </Grid>
-                                            <BoxView HorizontalOptions="FillAndExpand" 
+                                                </Grid>
+                                                <BoxView HorizontalOptions="FillAndExpand" 
                                                          HeightRequest="0.1" 
                                                          Opacity="0.5"
                                                          Margin="10,0,20,0"
                                                          Color="white"/>
-                                        </StackLayout>
+                                            </StackLayout>
+
+                                        </SwipeView>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
@@ -122,104 +139,4 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
         </ScrollView>
         <miniPlayer:MiniPlayerView Grid.Row="1" />
     </Grid>
-
-
-
-    <!--<VerticalStackLayout>
-
-        <Grid RowDefinitions="auto,auto,auto"
-              HeightRequest="150"
-              Margin="0,0,0,120">
-            <ffimageloading:CachedImage 
-                    Source="{Binding Cover}"
-                    HeightRequest="150"
-                    Aspect="AspectFill"
-                    LoadingPlaceholder="cdplayer.png" 
-                    ErrorPlaceholder="cdplayer.png"/>
-            <StackLayout Grid.Row="0"
-                         HorizontalOptions="Center" 
-                         VerticalOptions="Center">
-                <Label Text="{Binding Title}"
-                       LineBreakMode="TailTruncation"
-                       TextColor="White" 
-                       FontSize="25"/>
-                <Label Text="{Binding MusicCount , StringFormat='{0} Musics'}" 
-                       TextColor="White" 
-                       FontSize="15"/>
-            </StackLayout>
-            <ImageButton Grid.Row="2"
-                             Source="playbutton.png" 
-                             BackgroundColor="Transparent"
-                             WidthRequest="50"
-                             Margin="10"
-                             HorizontalOptions="Start"
-                             VerticalOptions="End"
-                             Command="{Binding PlayCommand}"
-                             CommandParameter="{Binding Title}"></ImageButton>
-        </Grid>
-
-        <ActivityIndicator IsRunning="{Binding IsBusy}"/>
-
-        <CollectionView Margin="15,0,0,0" 
-                            Grid.Row="1"
-                             SelectionMode="Single" 
-                             ItemsSource="{Binding MusicList}" 
-                             SelectedItem="{Binding SelectedMusic}"
-                             SelectionChangedCommand="{Binding PlayMusicCommand}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout Margin="0,15,0,0">
-                        <Grid ColumnDefinitions="auto,auto,auto,*" 
-          RowDefinitions="auto,auto">
-
-                            <Label Text="{Binding rowCount}" 
-                TextColor="White"
-                FontSize="14"
-                VerticalOptions="Center"
-                Opacity="0.5"
-                Margin="0,0,5,0"
-                Grid.Column="0" 
-                Grid.RowSpan="2"/>
-
-                            <ffimageloading:CachedImage
-                Source="{Binding DisplayImage}" 
-                WidthRequest="50" 
-                Margin="0,0,5,0"
-                Grid.Column="1"
-                Grid.RowSpan="2"
-                LoadingPlaceholder="cdplayer.png" 
-                ErrorPlaceholder="cdplayer.png"/>
-
-                            <Label Text="{Binding Title}" 
-                 TextColor="White"
-                 FontSize="17"
-                 VerticalOptions="Center"
-                 Grid.Column="2" 
-                 Grid.Row="0"/>
-                            <Label Text="{Binding Artist}" 
-                TextColor="White"
-                FontSize="12" 
-                Opacity="0.5" 
-                Grid.Column="2" 
-                Grid.Row="1"/>
-                            <Label Text="{Binding TatalDuration}" 
-                TextColor="White"
-                FontSize="12" 
-                Opacity="0.5" 
-                VerticalOptions="Center"
-                HorizontalOptions="End"
-                Margin="0,0,30,0"
-                Grid.Column="3" 
-                Grid.RowSpan="2"/>
-                        </Grid>
-                        <BoxView HorizontalOptions="FillAndExpand" 
-                 HeightRequest="0.1" 
-                 Opacity="0.5"
-                 Margin="10,0,20,0"
-                 Color="white"/>
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </VerticalStackLayout>-->
 </ContentPage>

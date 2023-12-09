@@ -11,7 +11,7 @@ using System.Collections.ObjectModel;
 namespace MAUI.Playkon.ir.V2.ViewModels
 {
 
-    public partial class PlayerViewModel : ObservableObject , IPlayerViewModel
+    public partial class PlayerViewModel : ObservableObject, IPlayerViewModel, IRecipient<MiniPlayerUIMessage>
     {
         #region Props
         [ObservableProperty]
@@ -44,11 +44,10 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         #region Ctor
         public PlayerViewModel()
         {
-            CrossMediaManager.Current.StateChanged += Current_StateChanged;
-            CrossMediaManager.Current.MediaItemChanged += Current_MediaItemChanged;
-            CrossMediaManager.Current.MediaItemFailed += Current_MediaItemFailed;
+            StrongReferenceMessenger.Default.Register(this);
+
             CrossMediaManager.Current.PositionChanged += Current_PositionChanged;
-            CrossMediaManager.Current.Speed = 1;
+            CrossMediaManager.Current.StateChanged += Current_StateChanged;
 
             if (CrossMediaManager.Current.Queue != null && CrossMediaManager.Current.Queue.Current != null)
                 CurrentMusic = (MediaItemModel)CrossMediaManager.Current.Queue.Current;
@@ -61,6 +60,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             Maximum = CurrentMusic.Duration.TotalSeconds;
             FavouriteIcon = CurrentMusic.Favourite ? "hearted.png" : "heart.png";
         }
+
         #endregion
 
         #region Commands
@@ -118,15 +118,14 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             {
                 StrongReferenceMessenger.Default.Send(new MiniPlayerMessage()
                 {
-                    Music = CurrentMusic,
-                    PlayNewInstance = true,
+                    CurrentMusic = CurrentMusic
                 });
             }
         }
         [RelayCommand]
-        public void MakeFavourite()
+        public async void MakeFavourite()
         {
-            var result = ApiService.GetInstance().Post<GeneralResult>("/Music/AddOrRemoveMusicFavourite",
+            var result = await ApiService.GetInstance().Post<GeneralResult>("/Music/AddOrRemoveMusicFavourite",
                 "{\"id\":\"" + CurrentMusic.MusicId + "\",\"name\":\"string\"}");
             if (result.status)
             {
@@ -143,11 +142,11 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         #endregion
 
         #region Methods
-        private void checkMusicFavourited()
+        private async void checkMusicFavourited()
         {
             try
             {
-                var isMusicFavourited = ApiService.GetInstance().Post<GeneralResult>("/Music/IsMusicFavourited",
+                var isMusicFavourited = await ApiService.GetInstance().Post<GeneralResult>("/Music/IsMusicFavourited",
                         "{\"id\":\"" + CurrentMusic.MusicId + "\",\"name\":\"string\"}");
 
                 CurrentMusic.Favourite = isMusicFavourited.status;
@@ -157,26 +156,22 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             {
             }
         }
+
         #endregion
 
         #region Events
-        private void Current_MediaItemChanged(object? sender, MediaManager.Media.MediaItemEventArgs e)
-        {
-            try
-            {
-                Task.Run(checkMusicFavourited);
-            }
-            catch (Exception ex)
-            {
-            }
-        }
         private void Current_PositionChanged(object? sender, MediaManager.Playback.PositionChangedEventArgs e)
         {
             Position = e.Position;
         }
         private void Current_StateChanged(object? sender, MediaManager.Playback.StateChangedEventArgs e)
         {
-            switch (CrossMediaManager.Current.State)
+            Task.Run(checkMusicFavourited);
+        }
+
+        public void Receive(MiniPlayerUIMessage message)
+        {
+            switch (message.MediaPlayerState)
             {
                 case MediaManager.Player.MediaPlayerState.Stopped:
                     PlayIcon = "playbutton.png";
@@ -199,9 +194,6 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 default:
                     break;
             }
-        }
-        private void Current_MediaItemFailed(object? sender, MediaManager.Media.MediaItemFailedEventArgs e)
-        {
         }
         #endregion
     }

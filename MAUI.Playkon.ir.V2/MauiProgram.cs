@@ -26,7 +26,7 @@ namespace MAUI.Playkon.ir.V2
 
             CrossMediaManager.Current.Init();
 
-            //builder.Services.AddSingleton<IPlayerViewModel, PlayerViewModel>();
+            new MediaManagerEventHelper().Init();
 
 #if DEBUG
             builder.Logging.AddDebug();

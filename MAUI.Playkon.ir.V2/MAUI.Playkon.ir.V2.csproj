@@ -170,9 +170,7 @@
 	</ItemGroup>
 
 	<ProjectExtensions>
-		<VisualStudio>
-			<UserProperties XamarinHotReloadUnhandledDeviceExceptionMAUIPlaykonirV2HideInfoBar="True" />
-		</VisualStudio>
+		<VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionMAUIPlaykonirV2HideInfoBar="True" XamarinHotReloadUnhandledDeviceExceptionMAUIPlaykonirV2HideInfoBar="True" /></VisualStudio>
 	</ProjectExtensions>
 
 </Project>

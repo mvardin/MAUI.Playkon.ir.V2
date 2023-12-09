@@ -10,7 +10,7 @@ using MediaManager.Library;
 
 namespace MAUI.Playkon.ir.V2.ViewModels
 {
-    internal partial class MiniPlayerViewModel : ObservableObject, IRecipient<MiniPlayerMessage>
+    internal partial class MiniPlayerViewModel : ObservableObject, IRecipient<MiniPlayerMessage>, IRecipient<MiniPlayerUIMessage>
     {
         #region Props
         [ObservableProperty]
@@ -28,23 +28,64 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         {
             if (CrossMediaManager.Current.Queue.Current != null)
             {
-                CurrentMusic = CrossMediaManager.Current.Queue.Current as MediaItemModel;
+                CurrentMusic = (MediaItemModel)CrossMediaManager.Current.Queue.Current;
                 if (CrossMediaManager.Current.State == MediaManager.Player.MediaPlayerState.Playing)
                     PlayIcon = "pausebutton.png";
                 else PlayIcon = "playbutton.png";
 
                 ShowMiniPlayer = 60;
             }
-            StrongReferenceMessenger.Default.Register(this);
-            CrossMediaManager.Current.MediaItemChanged += Current_MediaItemChanged;
-            CrossMediaManager.Current.StateChanged += Current_StateChanged;
+            StrongReferenceMessenger.Default.Register<MiniPlayerMessage>(this);
+            StrongReferenceMessenger.Default.Register<MiniPlayerUIMessage>(this);
         }
         #endregion
 
-        #region Events
-        private void Current_StateChanged(object? sender, MediaManager.Playback.StateChangedEventArgs e)
+        #region Commands
+        [RelayCommand]
+        private async Task PlayOrPause()
         {
-            switch (CrossMediaManager.Current.State)
+            _ = CrossMediaManager.Current.PlayPause();
+        }
+        [RelayCommand]
+        private void Next()
+        {
+            if (CrossMediaManager.Current.Queue.HasNext)
+                StrongReferenceMessenger.Default.Send(new MiniPlayerMessage()
+                {
+                    CurrentMusic = (MediaItemModel)CrossMediaManager.Current.Queue.Next
+                });
+        }
+        [RelayCommand]
+        private void Previous()
+        {
+            if (CrossMediaManager.Current.Queue.HasPrevious)
+                StrongReferenceMessenger.Default.Send(new MiniPlayerMessage()
+                {
+                    CurrentMusic = (MediaItemModel)CrossMediaManager.Current.Queue.Previous
+                });
+        }
+        #endregion
+
+        #region Recipients
+        public void Receive(MiniPlayerMessage message)
+        {
+            ShowMiniPlayer = 60;
+
+            if (message.CurrentMusic == null && message.QueueLList != null)
+                CurrentMusic = message.QueueLList.FirstOrDefault();
+            else
+                CurrentMusic = message.CurrentMusic;
+
+            if (message.QueueLList != null && !Tools.CompareList(CrossMediaManager.Current.Queue, message.QueueLList))
+            {
+                CrossMediaManager.Current.Queue.Clear();
+                _ = CrossMediaManager.Current.Play(message.QueueLList);
+            }
+            _ = CrossMediaManager.Current.PlayQueueItem(CurrentMusic);
+        }
+        public void Receive(MiniPlayerUIMessage message)
+        {
+            switch (message.MediaPlayerState)
             {
                 case MediaManager.Player.MediaPlayerState.Stopped:
                     PlayIcon = "playbutton.png";
@@ -66,64 +107,6 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                     break;
                 default:
                     break;
-            }
-        }
-
-        private void Current_MediaItemChanged(object? sender, MediaManager.Media.MediaItemEventArgs e)
-        {
-            try
-            {
-                Task.Run(addMusicLog);
-                CurrentMusic = (MediaItemModel)e.MediaItem;
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-        #endregion
-
-        #region Methods
-        private void addMusicLog()
-        {
-            try
-            {
-                ApiService.GetInstance().Post<object>("/Setting/AddPlayMusicLog"
-                        , "{\"id\":\"" + CurrentMusic.Id + "\",\"name\":\"string\"}");
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-        #endregion
-
-        #region Commands
-        [RelayCommand]
-        private async Task PlayOrPause()
-        {
-            CrossMediaManager.Current.PlayPause();
-        }
-        [RelayCommand]
-        private void Next()
-        {
-            var task = CrossMediaManager.Current.PlayNext();
-        }
-        [RelayCommand]
-        private void Previous()
-        {
-            var task = CrossMediaManager.Current.PlayPrevious();
-        }
-        #endregion
-
-        #region Recipients
-        public async void Receive(MiniPlayerMessage message)
-        {
-            ShowMiniPlayer = 60;
-
-            if (message.PlayNewInstance)
-            {
-                if (message.MusicList != null && !Tools.CompareList(CrossMediaManager.Current.Queue, message.MusicList))
-                    CrossMediaManager.Current.Play(message.MusicList);
-                CrossMediaManager.Current.PlayQueueItem(message.Music);
             }
         }
         #endregion

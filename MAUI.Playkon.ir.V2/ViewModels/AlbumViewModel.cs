@@ -30,7 +30,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             {
                 try
                 {
-                    var albums = ApiService.GetInstance().Post<AlbumResult>("/Music/Album", "{\"page\":1,\"take\":10}");
+                    var albums = await ApiService.GetInstance().Post<AlbumResult>("/Music/Album", "{\"page\":1,\"take\":10}");
                     foreach (var item in albums.items)
                         Items.Add(item);
                 }
@@ -59,7 +59,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         {
             try
             {
-                var result = ApiService.GetInstance().Post<AlbumResult>("/Music/SearchAlbums",
+                var result = await ApiService.GetInstance().Post<AlbumResult>("/Music/SearchAlbums",
                     "{\"q\":\"" + q + "\",\"page\":1,\"take\":50}");
 
                 var list = new ObservableCollection<Album>();

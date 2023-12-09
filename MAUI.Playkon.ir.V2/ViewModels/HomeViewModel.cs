@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 
 namespace MAUI.Playkon.ir.V2.ViewModels
 {
-    public partial class HomeViewModel : ObservableObject
+    public partial class HomeViewModel : ObservableObject, IRecipient<MiniPlayerMessage>
     {
         #region Props
         [ObservableProperty]
@@ -35,6 +35,8 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         #region Ctor
         public HomeViewModel()
         {
+            StrongReferenceMessenger.Default.Register(this);
+
             Task.Run(GetMusics);
             Task.Run(GetAlbums);
             Task.Run(GetArtists);
@@ -49,9 +51,8 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             {
                 StrongReferenceMessenger.Default.Send(new MiniPlayerMessage()
                 {
-                    Music = SelectedMusic,
-                    PlayNewInstance = true,
-                    MusicList = RecentMusicList
+                    CurrentMusic = SelectedMusic,
+                    QueueLList = RecentMusicList
                 });
             }
         }
@@ -65,7 +66,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             {
                 try
                 {
-                    var songResult = ApiService.GetInstance().Post<SongResult>("/Music/Recent", "{\"page\":1,\"take\":50}");
+                    var songResult = await ApiService.GetInstance().Post<SongResult>("/Music/Recent", "{\"page\":1,\"take\":50}");
                     var recentMusicList = new ObservableCollection<MediaItemModel>();
                     var mediaItemList = MediaManagerConverter.SongListToMediaItemList(songResult.items);
                     foreach (var song in mediaItemList)
@@ -88,7 +89,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             {
                 try
                 {
-                    var albums = ApiService.GetInstance().Post<AlbumResult>("/Music/Album", "{\"page\":1,\"take\":10}");
+                    var albums = await ApiService.GetInstance().Post<AlbumResult>("/Music/Album", "{\"page\":1,\"take\":10}");
                     var recentAlbumList = new ObservableCollection<Models.Album>();
                     foreach (var item in albums.items)
                         recentAlbumList.Add(item);
@@ -108,7 +109,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             {
                 try
                 {
-                    var artists = ApiService.GetInstance().Post<ArtistResult>("/Music/Artist", "{\"page\":1,\"take\":10}");
+                    var artists = await ApiService.GetInstance().Post<ArtistResult>("/Music/Artist", "{\"page\":1,\"take\":10}");
                     var recentArtistList = new ObservableCollection<Models.Artist>();
                     foreach (var item in artists.items)
                         recentArtistList.Add(item);
@@ -121,9 +122,14 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 IsArtistLoading = false;
             });
         }
+
         #endregion
 
         #region Reciepiens
+        public void Receive(MiniPlayerMessage message)
+        {
+            //SelectedMusic = message.CurrentMusic;
+        }
         #endregion
     }
 }
