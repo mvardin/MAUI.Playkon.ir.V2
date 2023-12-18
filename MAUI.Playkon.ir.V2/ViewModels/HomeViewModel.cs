@@ -20,9 +20,9 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         private bool isMusicLoading = true;
 
         [ObservableProperty]
-        private ObservableCollection<Models.Album> recentAlbumList;
+        private ObservableCollection<MediaItemModel> recentFeaturedList;
         [ObservableProperty]
-        private bool isAlbumsLoading = true;
+        private bool isFeaturedLoading = true;
 
         [ObservableProperty]
         private ObservableCollection<Models.Artist> recentArtistList;
@@ -39,7 +39,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             StrongReferenceMessenger.Default.Register(this);
 
             Task.Run(GetMusics);
-            Task.Run(GetAlbums);
+            Task.Run(GetFeatureds);
             Task.Run(GetArtists);
         }
         #endregion
@@ -83,45 +83,48 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 IsMusicLoading = false;
             });
         }
-        public async Task GetAlbums()
+        public async Task GetFeatureds()
         {
-            IsAlbumsLoading = true;
+            IsFeaturedLoading = true;
             _ = Task.Run(async () =>
             {
                 try
                 {
-                    var albums = await ApiService.GetInstance().Post<AlbumResult>("/Music/Album", "{\"page\":1,\"take\":10}");
-                    var recentAlbumList = new ObservableCollection<Models.Album>();
-                    foreach (var item in albums.items)
-                        recentAlbumList.Add(item);
-                    RecentAlbumList = recentAlbumList;
+                    var songResult = await ApiService.GetInstance().Post<SongResult>("/Music/Featured", "");
+                    var recentFeaturedList = new ObservableCollection<MediaItemModel>();
+                    var mediaItemList = MediaManagerConverter.SongListToMediaItemList(songResult.items);
+                    foreach (var song in mediaItemList)
+                    {
+                        recentFeaturedList.Add(song);
+                    }
+                    RecentFeaturedList = recentFeaturedList;
                 }
                 catch (System.Exception ex)
                 {
                     Shell.Current.DisplaySnackbar("Error:" + ex.Message, null, "OK");
                 }
-                IsAlbumsLoading = false;
+                IsFeaturedLoading = false;
             });
         }
         public async Task GetArtists()
         {
-            IsArtistLoading = true;
-            _ = Task.Run(async () =>
-            {
-                try
-                {
-                    var artists = await ApiService.GetInstance().Post<ArtistResult>("/Music/Artist", "{\"page\":1,\"take\":10}");
-                    var recentArtistList = new ObservableCollection<Models.Artist>();
-                    foreach (var item in artists.items)
-                        recentArtistList.Add(item);
-                    RecentArtistList = recentArtistList;
-                }
-                catch (System.Exception ex)
-                {
-                    Shell.Current.DisplaySnackbar("Error:" + ex.Message, null, "OK");
-                }
-                IsArtistLoading = false;
-            });
+            //IsArtistLoading = true;
+            //_ = Task.Run(async () =>
+            //{
+            //    try
+            //    {
+            //        var artists = await ApiService.GetInstance().Post<ArtistResult>("/Music/Artist", "{\"page\":1,\"take\":10}");
+            //        var recentArtistList = new ObservableCollection<Models.Artist>();
+            //        foreach (var item in artists.items)
+            //            recentArtistList.Add(item);
+            //        RecentArtistList = recentArtistList;
+            //    }
+            //    catch (System.Exception ex)
+            //    {
+            //        Shell.Current.DisplaySnackbar("Error:" + ex.Message, null, "OK");
+            //    }
+            //    IsArtistLoading = false;
+            //});
         }
 
         #endregion

@@ -1,4 +1,8 @@
-﻿using MAUI.Playkon.ir.V2.ViewModels;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using MAUI.Playkon.ir.V2.Models;
+using MAUI.Playkon.ir.V2.ViewModels;
+using MediaManager;
+using System.Collections.ObjectModel;
 
 namespace MAUI.Playkon.ir.V2.Pages
 {
@@ -22,14 +26,17 @@ namespace MAUI.Playkon.ir.V2.Pages
         private void tappedon_selectedAlbum(object sender, EventArgs e)
         {
             Grid grid = (Grid)sender;
-            var albumId = grid.AutomationId;
+            var musicId = Guid.Parse(grid.AutomationId);
 
-            PlaylistMusicListViewModel playlistMusicListViewModel = new PlaylistMusicListViewModel(albumId, PlaylistType.Album);
+            HomeViewModel homeViewModel = (HomeViewModel)BindingContext;
 
-            PlaylistMusicListPage playlistMusicListPage = new PlaylistMusicListPage();
-            playlistMusicListPage.BindingContext = playlistMusicListViewModel;
+            var SelectedMusic = homeViewModel.RecentFeaturedList.Where(a => a.MusicId == musicId).FirstOrDefault();
 
-            Shell.Current.Navigation.PushAsync(playlistMusicListPage, true);
+            StrongReferenceMessenger.Default.Send(new MiniPlayerMessage()
+            {
+                CurrentMusic = SelectedMusic,
+                QueueLList = homeViewModel.RecentFeaturedList
+            });
         }
 
         private void tappedon_selectedArtist(object sender, EventArgs e)

@@ -15,35 +15,37 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 
         <ScrollView Grid.Row="0">
             <StackLayout>
-                <StackLayout Margin="5,0,0,0"
+                <StackLayout Margin="5,10,0,10"
                    Orientation="Horizontal">
-                    <Label Text="Featured Albums" 
+                    <Label Text="Featured Artists" 
                            TextColor="White"
                            HorizontalOptions="Start"
                             VerticalOptions="Center"
                             FontSize="20"/>
-                    <Button BackgroundColor="Transparent" 
+                    <!--<Button BackgroundColor="Transparent" 
                             TextColor="White"
                             Text="See more" 
                             HorizontalOptions="EndAndExpand"
                             VerticalOptions="Center"
-                            Clicked="btnMoreAlbums"/>
+                            Clicked="btnMoreAlbums"/>-->
                 </StackLayout>
 
-                <ActivityIndicator IsRunning="{Binding IsAlbumsLoading}"
-                                   IsVisible="{Binding IsAlbumsLoading}"
+                <ActivityIndicator IsRunning="{Binding IsFeaturedLoading}"
+                                   IsVisible="{Binding IsFeaturedLoading}"
                                    VerticalOptions="Center"
                                    HorizontalOptions="Center"/>
+                
                 <CarouselView IsScrollAnimated="True"
-                                IsVisible="{Binding !IsAlbumsLoading}"
+                                Margin="5,0,5,0"
+                                IsVisible="{Binding !IsFeaturedLoading}"
                                 HorizontalScrollBarVisibility="Always"
                                 PeekAreaInsets="100"
                                 HeightRequest="100"
-                                ItemsSource="{Binding RecentAlbumList}">
+                                ItemsSource="{Binding RecentFeaturedList}">
                     <CarouselView.ItemTemplate>
                         <DataTemplate>
                             <Grid
-                                AutomationId="{Binding pAlbumId}"
+                                AutomationId="{Binding MusicId}"
                                 ColumnDefinitions="auto,*" 
                                 RowDefinitions="*">
 
@@ -53,25 +55,26 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                                     Grid.RowSpan="2"
                                     Grid.ColumnSpan="2"
                                     Aspect="AspectFill"
-                                    Source="{Binding cover}" 
+                                    Source="{Binding DisplayImage}" 
                                     LoadingPlaceholder="blankmusic.png" 
                                     ErrorPlaceholder="blankmusic.png">
                                 </ffimageloading:CachedImage>
-                                <Label Text="{Binding name}" 
+                                <Label Text="{Binding Title}" 
                                    TextColor="White"
                                    VerticalOptions="End"
                                    HorizontalOptions="Start"
-                                   FontSize="12"
+                                   FontSize="20"
                                    FontAttributes="Bold"
-                                       LineBreakMode="TailTruncation"
+                                   LineBreakMode="TailTruncation"
                                    Margin="10,0,0,20"
                                    Grid.Row="1" />
+
                                 <Label
-                                   Text="{Binding musicCount, StringFormat='{0} Musics'}"
+                                   Text="{Binding Artist}"
                                    VerticalOptions="End"
                                    Margin="10,0,0,0"
                                    TextColor="White" 
-                                   FontSize="10" 
+                                   FontSize="12" 
                                    Grid.Row="1"/>
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer
@@ -84,7 +87,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                     </CarouselView.ItemTemplate>
                 </CarouselView>
 
-                <StackLayout Margin="5,20,0,0"
+                <!--<StackLayout Margin="5,20,0,0"
                            Orientation="Horizontal">
                     <Label Text="Featured Artists" 
                            TextColor="White"
@@ -151,7 +154,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                             </Grid>
                         </DataTemplate>
                     </CarouselView.ItemTemplate>
-                </CarouselView>
+                </CarouselView>-->
 
                 <StackLayout Margin="5,20,0,0"
                        Orientation="Horizontal">
@@ -215,7 +218,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                                         Opacity="0.5" 
                                         Grid.Column="2" 
                                         Grid.Row="1"/>
-                                    <Label Text="{Binding TatalDuration}" 
+                                    <Label Text="{Binding MusicCount}" 
                                         TextColor="White"
                                         FontSize="12" 
                                         Opacity="0.5" 

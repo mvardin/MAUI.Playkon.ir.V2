@@ -18,7 +18,8 @@ namespace MAUI.Playkon.ir.V2.Data
         public Account Get()
         {
             var list = _database.Table<Account>().ToListAsync().Result;
-            return _database.Table<Account>().FirstOrDefaultAsync().Result;
+            var account = list.FirstOrDefault();
+            return account;
         }
     }
 }

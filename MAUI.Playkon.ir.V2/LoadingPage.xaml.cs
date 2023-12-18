@@ -1,4 +1,5 @@
 using Android.Accounts;
+using CommunityToolkit.Maui.Alerts;
 using MAUI.Playkon.ir.V2.Data;
 
 namespace MAUI.Playkon.ir.V2;
@@ -33,6 +34,7 @@ public partial class LoadingPage : ContentPage
         }
         catch (Exception ex)
         {
+            Shell.Current.DisplaySnackbar("Error:" + ex.Message, null, "OK");
         }
     }
 }
