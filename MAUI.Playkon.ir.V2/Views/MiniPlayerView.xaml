@@ -7,7 +7,7 @@
              BackgroundColor="#1F2128"
              x:Class="MAUI.Playkon.ir.V2.Views.MiniPlayerView">
     <ContentView.Content>
-        <Grid ColumnDefinitions="auto,auto,*"
+        <Grid ColumnDefinitions="auto,*,*"
               RowDefinitions="auto,auto" 
               HeightRequest="{Binding ShowMiniPlayer}"
               BackgroundColor="Gray">
@@ -30,9 +30,11 @@
                          Grid.Column="1">
                 <Label Text="{Binding CurrentMusic.Title}" 
                        TextColor="White" 
+                       LineBreakMode="TailTruncation"
                        FontSize="17" Margin="0,0,0,5"/>
                 <Label Text="{Binding CurrentMusic.Artist}" 
                        FontSize="12"
+                       LineBreakMode="TailTruncation"
                        TextColor="White"
                        Opacity="0.5"/>
             </VerticalStackLayout>

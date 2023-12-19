@@ -25,9 +25,9 @@ namespace MAUI.Playkon.ir.V2.ViewModels
         private bool isFeaturedLoading = true;
 
         [ObservableProperty]
-        private ObservableCollection<Models.Artist> recentArtistList;
+        private ObservableCollection<Models.Artist> recentPlaylistList;
         [ObservableProperty]
-        private bool isArtistLoading = true;
+        private bool isPlaylistLoading = true;
 
         [ObservableProperty]
         private MediaItemModel selectedMusic;
@@ -40,7 +40,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
 
             Task.Run(GetMusics);
             Task.Run(GetFeatureds);
-            Task.Run(GetArtists);
+            Task.Run(GetPlaylists);
         }
         #endregion
 
@@ -106,25 +106,27 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 IsFeaturedLoading = false;
             });
         }
-        public async Task GetArtists()
+        public async Task GetPlaylists()
         {
-            //IsArtistLoading = true;
-            //_ = Task.Run(async () =>
-            //{
-            //    try
-            //    {
-            //        var artists = await ApiService.GetInstance().Post<ArtistResult>("/Music/Artist", "{\"page\":1,\"take\":10}");
-            //        var recentArtistList = new ObservableCollection<Models.Artist>();
-            //        foreach (var item in artists.items)
-            //            recentArtistList.Add(item);
-            //        RecentArtistList = recentArtistList;
-            //    }
-            //    catch (System.Exception ex)
-            //    {
-            //        Shell.Current.DisplaySnackbar("Error:" + ex.Message, null, "OK");
-            //    }
-            //    IsArtistLoading = false;
-            //});
+            IsPlaylistLoading = true;
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    var playlists = await ApiService.GetInstance().Post<ArtistResult>("/Playlist/Public", "");
+                    var playlistList = new ObservableCollection<Models.Artist>();
+                    foreach (var item in playlists.items)
+                    {
+                        playlistList.Add(item);
+                    }
+                    RecentPlaylistList = playlistList;
+                }
+                catch (System.Exception ex)
+                {
+                    Shell.Current.DisplaySnackbar("Error:" + ex.Message, null, "OK");
+                }
+                IsPlaylistLoading = false;
+            });
         }
 
         #endregion

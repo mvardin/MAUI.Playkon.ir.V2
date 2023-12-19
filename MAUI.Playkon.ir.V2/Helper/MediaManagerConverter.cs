@@ -28,6 +28,8 @@ namespace MAUI.Playkon.ir.V2.Helper
                 Favourite = song.isUserFavorited,
                 MusicCount = song.playCount
             };
+            if (string.IsNullOrEmpty(song.duration))
+                song.duration = "0";
             string durationString = song.duration;
             if (durationString.Contains("."))
                 durationString = durationString.Remove(durationString.IndexOf("."));

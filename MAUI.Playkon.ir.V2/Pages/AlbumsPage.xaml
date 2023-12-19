@@ -32,8 +32,8 @@
                             <DataTemplate>
                                 <StackLayout Margin="0,15,0,0">
                                     <Grid 
-                 ColumnDefinitions="auto,3*,*" 
-                 RowDefinitions="auto,auto">
+                                     ColumnDefinitions="auto,3*,*" 
+                                     RowDefinitions="auto,auto">
                                         <ffimageloading:CachedImage
                                 Source="{Binding cover}" 
                                 WidthRequest="50" 

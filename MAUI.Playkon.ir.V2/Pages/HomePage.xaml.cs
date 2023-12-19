@@ -23,7 +23,7 @@ namespace MAUI.Playkon.ir.V2.Pages
         {
             Shell.Current.GoToAsync("artists", true);
         }
-        private void tappedon_selectedAlbum(object sender, EventArgs e)
+        private void tappedon_selectedAlbum(object sender, TappedEventArgs e)
         {
             Grid grid = (Grid)sender;
             var musicId = Guid.Parse(grid.AutomationId);
@@ -38,23 +38,17 @@ namespace MAUI.Playkon.ir.V2.Pages
                 QueueLList = homeViewModel.RecentFeaturedList
             });
         }
-
-        private void tappedon_selectedArtist(object sender, EventArgs e)
+        private void tappedon_selectedPlaylist(object sender, TappedEventArgs e)
         {
             Grid grid = (Grid)sender;
-            var artistId = grid.AutomationId;
+            var playlistId = grid.AutomationId;
 
-            PlaylistMusicListViewModel playlistMusicListViewModel = new PlaylistMusicListViewModel(artistId, PlaylistType.Artist);
+            PlaylistMusicListViewModel playlistMusicListViewModel = new PlaylistMusicListViewModel(playlistId, PlaylistType.Playlist);
 
             PlaylistMusicListPage playlistMusicListPage = new PlaylistMusicListPage();
             playlistMusicListPage.BindingContext = playlistMusicListViewModel;
 
             Shell.Current.Navigation.PushAsync(playlistMusicListPage, true);
-
-        }
-
-        private void btnMoreMusics(object sender, EventArgs e)
-        {
 
         }
     }

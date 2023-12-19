@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Maui"
              x:Class="MAUI.Playkon.ir.V2.Pages.HomePage"
              Shell.NavBarIsVisible="False"
              xmlns:miniPlayer="clr-namespace:MAUI.Playkon.ir.V2.Views"
@@ -15,118 +16,49 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 
         <ScrollView Grid.Row="0">
             <StackLayout>
-                <StackLayout Margin="5,10,0,10"
-                   Orientation="Horizontal">
-                    <Label Text="Featured Artists" 
-                           TextColor="White"
-                           HorizontalOptions="Start"
-                            VerticalOptions="Center"
-                            FontSize="20"/>
-                    <!--<Button BackgroundColor="Transparent" 
-                            TextColor="White"
-                            Text="See more" 
-                            HorizontalOptions="EndAndExpand"
-                            VerticalOptions="Center"
-                            Clicked="btnMoreAlbums"/>-->
-                </StackLayout>
 
-                <ActivityIndicator IsRunning="{Binding IsFeaturedLoading}"
-                                   IsVisible="{Binding IsFeaturedLoading}"
-                                   VerticalOptions="Center"
-                                   HorizontalOptions="Center"/>
-                
-                <CarouselView IsScrollAnimated="True"
-                                Margin="5,0,5,0"
-                                IsVisible="{Binding !IsFeaturedLoading}"
-                                HorizontalScrollBarVisibility="Always"
-                                PeekAreaInsets="100"
-                                HeightRequest="100"
-                                ItemsSource="{Binding RecentFeaturedList}">
-                    <CarouselView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid
-                                AutomationId="{Binding MusicId}"
-                                ColumnDefinitions="auto,*" 
-                                RowDefinitions="*">
-
-                                <ffimageloading:CachedImage 
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    Grid.RowSpan="2"
-                                    Grid.ColumnSpan="2"
-                                    Aspect="AspectFill"
-                                    Source="{Binding DisplayImage}" 
-                                    LoadingPlaceholder="blankmusic.png" 
-                                    ErrorPlaceholder="blankmusic.png">
-                                </ffimageloading:CachedImage>
-                                <Label Text="{Binding Title}" 
-                                   TextColor="White"
-                                   VerticalOptions="End"
-                                   HorizontalOptions="Start"
-                                   FontSize="20"
-                                   FontAttributes="Bold"
-                                   LineBreakMode="TailTruncation"
-                                   Margin="10,0,0,20"
-                                   Grid.Row="1" />
-
-                                <Label
-                                   Text="{Binding Artist}"
-                                   VerticalOptions="End"
-                                   Margin="10,0,0,0"
-                                   TextColor="White" 
-                                   FontSize="12" 
-                                   Grid.Row="1"/>
-                                <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer
-                                    Tapped="tappedon_selectedAlbum"
-                                    NumberOfTapsRequired="1">
-                                    </TapGestureRecognizer>
-                                </Grid.GestureRecognizers>
-                            </Grid>
-                        </DataTemplate>
-                    </CarouselView.ItemTemplate>
-                </CarouselView>
-
-                <!--<StackLayout Margin="5,20,0,0"
+                <StackLayout Margin="5,20,0,-30"
                            Orientation="Horizontal">
-                    <Label Text="Featured Artists" 
+                    <Label Text="Playlists" 
+                           Opacity="0.7"
                            TextColor="White"
                            HorizontalOptions="Start"
-                            VerticalOptions="Center"
-                            FontSize="20"/>
-                    <Button BackgroundColor="Transparent" 
+                           VerticalOptions="Center"
+                           FontSize="20"/>
+                    <!--<Button BackgroundColor="Transparent" 
                              Text="See more" 
                            TextColor="White"
                             HorizontalOptions="EndAndExpand"
                             VerticalOptions="Center"
-                            Clicked="btnMoreArtists"/>
+                            Clicked="btnMoreArtists"/>-->
                 </StackLayout>
-
-                <ActivityIndicator IsRunning="{Binding IsArtistLoading}"
-                                   IsVisible="{Binding IsArtistLoading}"
+                <ActivityIndicator IsRunning="{Binding isPlaylistLoading}"
+                                   IsVisible="{Binding isPlaylistLoading}"
                                    VerticalOptions="Center"
                                    HorizontalOptions="Center"/>
-
-                <CarouselView HeightRequest="100"
-                      PeekAreaInsets="100"
-                              IsVisible="{Binding !IsArtistLoading}"
-                      ItemsSource="{Binding RecentArtistList}">
+                <CarouselView HeightRequest="200"
+                                Margin="5,0,5,0"
+                                PeekAreaInsets="100"
+                                IsVisible="{Binding !isPlaylistLoading}"
+                                ItemsSource="{Binding RecentPlaylistList}">
                     <CarouselView.ItemTemplate>
                         <DataTemplate>
                             <Grid 
-                        AutomationId="{Binding pArtistId}"
-                        ColumnDefinitions="*" 
-                        RowDefinitions="auto,*">
+                                AutomationId="{Binding id}"
+                                RowDefinitions="auto,auto"
+                                Padding="10">
 
                                 <ffimageloading:CachedImage 
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    Grid.RowSpan="2"
-                                    Grid.ColumnSpan="2"
-                                    Source="{Binding cover}" 
-                                    Aspect="AspectFill"
-                                    LoadingPlaceholder="blankmusic.png" 
-                                    ErrorPlaceholder="blankmusic.png">
+                                        Grid.Row="0"
+                                        Margin="0,0,0,10"
+                                        HeightRequest="140"
+                                        Source="{Binding cover}" 
+                                        DownsampleToViewSize="true"
+                                        LoadingPlaceholder="blankmusic.png" 
+                                        ErrorPlaceholder="blankmusic.png">
+                                    <ffimageloading:CachedImage.Transformations>
+                                        <fftransformations:RoundedTransformation Radius="30"/>
+                                    </ffimageloading:CachedImage.Transformations>
                                 </ffimageloading:CachedImage>
 
                                 <Label Text="{Binding name}" 
@@ -147,28 +79,103 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                                        Grid.Row="1"/>
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer
-                    Tapped="tappedon_selectedArtist"
-                    NumberOfTapsRequired="1">
+                                            Tapped="tappedon_selectedPlaylist"
+                                            NumberOfTapsRequired="1">
                                     </TapGestureRecognizer>
                                 </Grid.GestureRecognizers>
                             </Grid>
                         </DataTemplate>
                     </CarouselView.ItemTemplate>
-                </CarouselView>-->
+                </CarouselView>
+
+                <StackLayout Margin="5,10,0,10"
+                   Orientation="Horizontal">
+                    <Label Text="Featured" 
+                           Opacity="0.7"
+                           TextColor="White"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center"
+                           FontSize="20"/>
+                    <!--<Button BackgroundColor="Transparent" 
+                            TextColor="White"
+                            Text="See more" 
+                            HorizontalOptions="EndAndExpand"
+                            VerticalOptions="Center"
+                            Clicked="btnMoreAlbums"/>-->
+                </StackLayout>
+                <ActivityIndicator IsRunning="{Binding IsFeaturedLoading}"
+                                   IsVisible="{Binding IsFeaturedLoading}"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"/>
+                <CarouselView IsScrollAnimated="True"
+                                Margin="5,0,5,0"
+                                IsVisible="{Binding !IsFeaturedLoading}"
+                                PeekAreaInsets="100"
+                                HeightRequest="200"
+                                ItemsSource="{Binding RecentFeaturedList}">
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid
+                                AutomationId="{Binding MusicId}"
+                                RowDefinitions="auto,auto"
+                                Padding="10">
+
+                                <ffimageloading:CachedImage 
+                                    Grid.Row="0"
+                                    Margin="0,0,0,10"
+                                    HeightRequest="140"
+                                    Source="{Binding DisplayImage}" 
+                                    DownsampleToViewSize="true"
+                                    LoadingPlaceholder="blankmusic.png" 
+                                    ErrorPlaceholder="blankmusic.png">
+                                    <ffimageloading:CachedImage.Transformations>
+                                        <fftransformations:RoundedTransformation Radius="30"/>
+                                    </ffimageloading:CachedImage.Transformations>
+                                </ffimageloading:CachedImage>
+
+                                <Label Text="{Binding Title}" 
+                                   TextColor="White"
+                                   VerticalOptions="End"
+                                   HorizontalOptions="Start"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   LineBreakMode="TailTruncation"
+                                   Margin="10,0,10,20"
+                                   Grid.Row="1" />
+
+                                <Label
+                                   Text="{Binding Artist}"
+                                   VerticalOptions="End"
+                                   Margin="10,0,0,0"
+                                   TextColor="White" 
+                                   FontSize="10" 
+                                   Grid.Row="1"/>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                    Tapped="tappedon_selectedAlbum"
+                                    NumberOfTapsRequired="1">
+                                    </TapGestureRecognizer>
+                                </Grid.GestureRecognizers>
+                            </Grid>
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
+
 
                 <StackLayout Margin="5,20,0,0"
                        Orientation="Horizontal">
                     <Label Text="Recent Musics" 
                            TextColor="White"
+                           Opacity="0.7"
                            HorizontalOptions="Start"
-                            VerticalOptions="Center"
-                            FontSize="20"/>
-                    <Button BackgroundColor="Transparent" 
+                           VerticalOptions="Center"
+                           FontSize="20"/>
+                    <!--<Button BackgroundColor="Transparent" 
                            Text="See more" 
                            TextColor="White"
                             HorizontalOptions="EndAndExpand"
                             VerticalOptions="Center"
-                            Clicked="btnMoreMusics"/>
+                            Clicked="btnMoreMusics"/>-->
                 </StackLayout>
                 <ActivityIndicator IsRunning="{Binding IsMusicLoading}"
                                    IsVisible="{Binding IsMusicLoading}"
@@ -183,7 +190,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <StackLayout Margin="0,15,0,0">
-                                <Grid ColumnDefinitions="auto,auto,auto,*" 
+                                <Grid ColumnDefinitions="auto,auto,3*,*" 
                                   RowDefinitions="auto,auto">
 
                                     <Label Text="{Binding rowCount}" 
@@ -208,17 +215,19 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 
                                     <Label Text="{Binding Title}" 
                                          TextColor="White"
+                                         LineBreakMode="TailTruncation"
                                          FontSize="17"
                                          VerticalOptions="Center"
                                          Grid.Column="2" 
                                          Grid.Row="0"/>
                                     <Label Text="{Binding Artist}" 
                                         TextColor="White"
+                                        LineBreakMode="TailTruncation"
                                         FontSize="12" 
                                         Opacity="0.5" 
                                         Grid.Column="2" 
                                         Grid.Row="1"/>
-                                    <Label Text="{Binding MusicCount}" 
+                                    <Label Text="{Binding TatalDuration}" 
                                         TextColor="White"
                                         FontSize="12" 
                                         Opacity="0.5" 

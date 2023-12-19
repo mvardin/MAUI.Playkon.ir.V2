@@ -26,7 +26,7 @@ namespace MAUI.Playkon.ir.V2.Models
     public class Account
     {
         [PrimaryKey]
-        public int id { get; set; }
+        public string id { get; set; }
         public string username { get; set; }
         public string token { get; set; }
         public string image { get; set; }

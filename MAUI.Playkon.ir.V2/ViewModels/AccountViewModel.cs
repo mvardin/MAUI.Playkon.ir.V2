@@ -39,7 +39,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                             code = result.code,
                             email = result.email,
                             apiVersion = result.apiVersion,
-                            id = result.id,
+                            id = result.response.id,
                             image = result.image,
                             isRestricted = result.isRestricted,
                             name = result.name,

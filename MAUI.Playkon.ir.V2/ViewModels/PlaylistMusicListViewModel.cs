@@ -49,6 +49,28 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 QueueLList = MusicList,
             });
         }
+        [RelayCommand]
+        private async void Delete(object obj)
+        {
+            try
+            {
+                //TODO Ardin
+                //MediaItemModel userPlaylist = (MediaItemModel)obj;
+                //bool result = await Shell.Current.DisplayAlert("Delete " + userPlaylist.Title, "Are you sure?", "Yes", "No");
+                //if (result)
+                //{
+                //    var apiResult = await ApiService.GetInstance().Post<object>(
+                //                        "/PlaylistMusic/Delete",
+                //                        "{\"id\":\"" + userPlaylist.id + "\"}");
+                Shell.Current.DisplaySnackbar("Can not delete this item!");
+                //    populate();
+                //}
+            }
+            catch (Exception ex)
+            {
+                Shell.Current.DisplaySnackbar("Error: " + ex.Message);
+            }
+        }
         #endregion
 
         #region Ctor

@@ -17,7 +17,6 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             <StackLayout>
                 <StackLayout>
 
-                    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
 
                     <Grid HeightRequest="200">
                         <ffimageloading:CachedImage 
@@ -33,59 +32,66 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                         </StackLayout>
                     </Grid>
 
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
                     <CollectionView Margin="15,15,0,0" 
-              SelectionMode="Single" 
-              ItemsSource="{Binding Playlist}" 
-              SelectedItem="{Binding SelectedPlaylist}"
-              SelectionChangedCommand="{Binding PlayPlaylistCommand}">
+                              SelectionMode="Single" 
+                              ItemsSource="{Binding Playlist}" 
+                              SelectedItem="{Binding SelectedPlaylist}"
+                              x:Name="cvPlaylist"
+                              SelectionChangedCommand="{Binding PlayPlaylistCommand}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <StackLayout Margin="0,15,0,0">
-                                    <Grid 
-                              ColumnDefinitions="auto,3*,auto,auto" 
-                              RowDefinitions="auto,auto"
-                              Margin="0,0,15,0">
-                                        <ffimageloading:CachedImage
-                                 Source="{Binding cover}" 
-                                 WidthRequest="50" 
-                                 Grid.Column="0"
-                                 Grid.RowSpan="2"
-                                 LoadingPlaceholder="cdplayer.png" 
-                                 ErrorPlaceholder="cdplayer.png"/>
+                                <SwipeView>
+                                    <SwipeView.LeftItems>
+                                        <SwipeItems>
+                                            <SwipeItem Text="Edit"
+                                               IconImageSource="search.png"
+                                               BackgroundColor="Transparent"
+                                               Command="{Binding Source={x:Reference cvPlaylist}, Path=BindingContext.EditCommand}"
+                                               CommandParameter="{Binding}" />
+                                            <SwipeItem Text="Delete"
+                                               IconImageSource="delete.png"
+                                               BackgroundColor="Transparent"
+                                               Command="{Binding Source={x:Reference cvPlaylist}, Path=BindingContext.DeleteCommand}"
+                                               CommandParameter="{Binding}" />
+                                        </SwipeItems>
+                                    </SwipeView.LeftItems>
+                                    <StackLayout Margin="0,15,0,0">
+                                        <Grid 
+                                              ColumnDefinitions="auto,*" 
+                                              RowDefinitions="auto,auto"
+                                              Margin="0,0,15,0">
+                                            <ffimageloading:CachedImage
+                                                 Source="{Binding cover}" 
+                                                 WidthRequest="50" 
+                                                 Grid.Column="0"
+                                                 Grid.RowSpan="2"
+                                                 LoadingPlaceholder="cdplayer.png" 
+                                                 ErrorPlaceholder="cdplayer.png"/>
 
-                                        <Label  Text="{Binding name}" 
-                             HorizontalOptions="Start"
-                                 LineBreakMode="TailTruncation"
-                                 TextColor="White" 
-                                 FontSize="16"
-                                 Grid.Column="1" 
-                                 Grid.Row="0"/>
+                                            <Label  Text="{Binding name}" 
+                                                 HorizontalOptions="Start"
+                                                 LineBreakMode="TailTruncation"
+                                                 TextColor="White" 
+                                                 FontSize="16"
+                                                 Grid.Column="1" 
+                                                 Grid.Row="0"/>
 
-                                        <Label Text="{Binding musicCount ,StringFormat='{0} Musics'}" 
-                                     TextColor="White" 
-                                     FontSize="10" 
-                                     Opacity="0.5" 
-                                     Grid.Column="1" 
-                                     Grid.Row="1"/>
+                                            <Label Text="{Binding musicCount ,StringFormat='{0} Musics'}" 
+                                                 TextColor="White" 
+                                                 FontSize="10" 
+                                                 Opacity="0.5" 
+                                                 Grid.Column="1" 
+                                                 Grid.Row="1"/>
 
-                                        <Button Command="{Binding EditCommand}" 
-                                         Text="Edit"
-                                         BackgroundColor="Transparent"
-                                         Grid.Column="2"
-                                         Grid.RowSpan="2"/>
-                                        <Button Command="{Binding DeleteCommand}" 
-                                         Text="Del"
-                                         BackgroundColor="Transparent"
-                                         Grid.Column="3"
-                                         Grid.RowSpan="2"/>
-
-                                    </Grid>
-                                    <BoxView HorizontalOptions="FillAndExpand" 
-                                   HeightRequest="0.1" 
-                                   Opacity="0.5"
-                                   Margin="10,0,20,0"
-                                   Color="white"/>
-                                </StackLayout>
+                                        </Grid>
+                                        <BoxView HorizontalOptions="FillAndExpand" 
+                                               HeightRequest="0.1" 
+                                               Opacity="0.5"
+                                               Margin="10,0,20,0"
+                                               Color="white"/>
+                                    </StackLayout>
+                                </SwipeView>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
