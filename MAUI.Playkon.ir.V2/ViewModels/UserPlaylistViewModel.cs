@@ -27,7 +27,7 @@ namespace MAUI.Playkon.ir.V2.ViewModels
             Task.Run(populate);
         }
 
-        private void populate()
+        public void populate()
         {
             try
             {

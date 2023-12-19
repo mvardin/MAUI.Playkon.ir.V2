@@ -20,16 +20,20 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 
                     <Grid HeightRequest="200">
                         <ffimageloading:CachedImage 
-                    Source="background.png"
-                    Opacity="0.5"
-                    Aspect="AspectFill" 
-                    LoadingPlaceholder="cdplayer.png" 
-                    ErrorPlaceholder="cdplayer.png"/>
+                            Source="background.png"
+                            Opacity="0.5"
+                            Aspect="AspectFill" 
+                            LoadingPlaceholder="cdplayer.png" 
+                            ErrorPlaceholder="cdplayer.png"/>
                         <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
                             <Label Text="Playlist" 
-                       TextColor="White" 
-                       FontSize="25"/>
+                                   TextColor="White" 
+                                   FontSize="25"/>
                         </StackLayout>
+                        <ImageButton Source="Playlist.png" 
+                                     WidthRequest="50"
+                                     HorizontalOptions="Start"
+                                     Clicked="btnAddNewPlaylist"/>
                     </Grid>
 
                     <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"/>
@@ -95,6 +99,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
+
                 </StackLayout>
             </StackLayout>
         </ScrollView>

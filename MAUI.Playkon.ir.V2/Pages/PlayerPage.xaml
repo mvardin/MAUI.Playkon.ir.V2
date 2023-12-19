@@ -92,10 +92,10 @@ xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                                    Padding="10"
                                    HorizontalOptions="Center">
 
-                    <ImageButton Source="{Binding MuteIcon}" 
+                    <ImageButton Source="playlist.png" 
                              WidthRequest="25"
                              BackgroundColor="Transparent"
-                             Command="{Binding MuteCommand}"/>
+                             Command="{Binding AddToPlaylistCommand}"/>
 
                     <ImageButton Command="{Binding ChangeMusicCommand}"
                             CommandParameter="P"

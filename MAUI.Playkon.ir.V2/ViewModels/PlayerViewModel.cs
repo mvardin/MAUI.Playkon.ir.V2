@@ -93,6 +93,33 @@ namespace MAUI.Playkon.ir.V2.ViewModels
                 }
         }
         [RelayCommand]
+        public async void AddToPlaylist()
+        {
+            var result = ApiService.GetInstance().Get<UserPlaylistResult>("/Playlist/List");
+            if (result.items.Any())
+            {
+                List<string> buttons = new List<string>();
+                foreach (var playlist in result.items)
+                    buttons.Add(playlist.name);
+                var selectedButton = await Shell.Current.DisplayActionSheet("Select Playlist", "Cancel", "OK", buttons.ToArray());
+
+                if (!string.IsNullOrEmpty(selectedButton))
+                {
+                    var selectedMusic = result.items.Where(a => a.name == selectedButton).FirstOrDefault();
+                    if (selectedMusic != null)
+                    {
+                        var addResult = ApiService.GetInstance().Post<object>("/PlaylistMusic/Add",
+                        "{\"musicId\":\"" + CurrentMusic.MusicId + "\",\"playlistId\":\"" + selectedMusic.id + "\"}");
+                        Shell.Current.DisplaySnackbar("Added to playlist.");
+                    }
+                }
+            }
+            else
+            {
+                Shell.Current.DisplaySnackbar("You dont have any playlist.");
+            }
+        }
+        [RelayCommand]
         public void ChangeMusic(object obj)
         {
             try
