@@ -42,7 +42,8 @@ namespace MAUI.Playkon.ir.V2.Services
 
                 request.Headers.Add("accept", "*/*");
                 string token = getToken();
-                request.Headers.Add("Authorization", "bearer " + token);
+                if (!string.IsNullOrEmpty(token))
+                    request.Headers.Add("Authorization", "bearer " + token);
 
                 request.Content = new StringContent(data);
                 request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
