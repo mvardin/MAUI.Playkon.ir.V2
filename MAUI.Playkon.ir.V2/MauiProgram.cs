@@ -6,6 +6,7 @@ using MediaManager.Platforms.Android.MediaSession;
 using MAUI.Playkon.ir.V2.Services;
 using MAUI.Playkon.ir.V2.Helper;
 using MAUI.Playkon.ir.V2.ViewModels;
+using SQLitePCL;
 
 namespace MAUI.Playkon.ir.V2
 {
@@ -13,6 +14,7 @@ namespace MAUI.Playkon.ir.V2
     {
         public static MauiApp CreateMauiApp()
         {
+            Batteries.Init();
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
